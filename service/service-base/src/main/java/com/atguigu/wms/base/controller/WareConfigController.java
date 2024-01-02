@@ -1,14 +1,12 @@
 package com.atguigu.wms.base.controller;
 
-import com.atguigu.wms.model.base.GoodsInfo;
-import com.atguigu.wms.model.base.WareConfig;
 import com.atguigu.wms.base.service.WareConfigService;
 import com.atguigu.wms.common.result.Result;
+import com.atguigu.wms.model.base.WareConfig;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
 import javax.annotation.Resource;
 
 /**
@@ -21,7 +19,7 @@ import javax.annotation.Resource;
 @RequestMapping(value="/admin/base/wareConfig")
 @SuppressWarnings({"unchecked", "rawtypes"})
 public class WareConfigController {
-	
+
 	@Resource
 	private WareConfigService waveConfigService;
 

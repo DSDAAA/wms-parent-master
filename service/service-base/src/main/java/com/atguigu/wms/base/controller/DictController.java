@@ -1,14 +1,16 @@
 package com.atguigu.wms.base.controller;
 
-import com.atguigu.wms.common.result.Result;
 import com.atguigu.wms.base.service.DictService;
+import com.atguigu.wms.common.result.Result;
 import com.atguigu.wms.model.base.Dict;
-import io.swagger.annotations.*;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
-import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 
 /**
@@ -51,7 +53,7 @@ public class DictController {
      */
     @ApiOperation(value = "根据数据字典数据编码找到下面所有的子节点")
     @GetMapping("findByDictCode/{dictCode}")
-    public Result findByDictCode(@PathVariable Integer dictCode) {
+    public Result findByDictCode(@PathVariable String dictCode) {
         List<Dict> retList = dictService.findByDictCode(dictCode);
         return Result.ok(retList);
     }

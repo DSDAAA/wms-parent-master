@@ -1,22 +1,14 @@
 package com.atguigu.wms.base.controller;
 
-import com.atguigu.wms.common.security.AuthContextHolder;
-import com.atguigu.wms.model.base.StoreareaInfo;
-import com.atguigu.wms.model.base.StorehouseInfo;
-import com.atguigu.wms.vo.base.StorehouseInfoQueryVo;
 import com.atguigu.wms.base.service.StorehouseInfoService;
-import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.atguigu.wms.common.result.Result;
+import com.atguigu.wms.model.base.StorehouseInfo;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.ApiParam;
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
 import javax.annotation.Resource;
+import java.util.List;
 
 /**
  *
@@ -28,7 +20,7 @@ import javax.annotation.Resource;
 @RequestMapping(value="/admin/base/storehouseInfo")
 @SuppressWarnings({"unchecked", "rawtypes"})
 public class StorehouseInfoController {
-	
+
 	@Resource
 	private StorehouseInfoService storehouseInfoService;
 

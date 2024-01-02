@@ -75,7 +75,7 @@ public class DictServiceImpl extends ServiceImpl<DictMapper, Dict> implements Di
      * @return
      */
     @Override
-    public List<Dict> findByDictCode(Integer dictCode) {
+    public List<Dict> findByDictCode(String dictCode) {
         QueryWrapper queryWrapper = new QueryWrapper();
         queryWrapper.eq("dict_code", dictCode);
         List<Dict> list = dictMapper.selectList(queryWrapper);

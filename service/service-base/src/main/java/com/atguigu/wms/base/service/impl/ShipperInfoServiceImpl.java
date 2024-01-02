@@ -3,11 +3,15 @@ package com.atguigu.wms.base.service.impl;
 import com.atguigu.wms.base.mapper.ShipperInfoMapper;
 import com.atguigu.wms.base.service.ShipperInfoService;
 import com.atguigu.wms.model.base.ShipperInfo;
+import com.atguigu.wms.vo.base.ShipperInfoQueryVo;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 
 @Service
 public class ShipperInfoServiceImpl extends ServiceImpl<ShipperInfoMapper, ShipperInfo> implements ShipperInfoService {
@@ -58,4 +62,30 @@ public class ShipperInfoServiceImpl extends ServiceImpl<ShipperInfoMapper, Shipp
         queryWrapper.eq("id", id);
         shipperInfoMapper.delete(queryWrapper);
     }
+
+    @Override
+    public IPage<ShipperInfo> getPageList(IPage<ShipperInfo> retPage, ShipperInfoQueryVo shipperInfoQueryVo) {
+        Long areaId = shipperInfoQueryVo.getAreaId();
+        String keyword = shipperInfoQueryVo.getKeyword();
+        Long cityId = shipperInfoQueryVo.getCityId();
+        Long provinceId = shipperInfoQueryVo.getProvinceId();
+        QueryWrapper queryWrapper = new QueryWrapper();
+        if (areaId != null) {
+            queryWrapper.eq("area_id", areaId);
+        }
+        if (!StringUtils.isEmpty(keyword)) {
+            //todo ES检索
+            queryWrapper.like("name", keyword);
+            queryWrapper.like("phone", keyword);
+        }
+        if (cityId != null) {
+            queryWrapper.eq("city_id", cityId);
+        }
+        if (provinceId != null) {
+            queryWrapper.eq("province_id", provinceId);
+        }
+        IPage<ShipperInfo> iPage = shipperInfoMapper.selectPage(retPage, queryWrapper);
+        return iPage;
+    }
+
 }

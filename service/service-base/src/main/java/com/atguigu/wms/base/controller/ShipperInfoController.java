@@ -1,24 +1,21 @@
 package com.atguigu.wms.base.controller;
 
-import com.atguigu.wms.base.service.DictService;
 import com.atguigu.wms.base.service.ShipperInfoService;
 import com.atguigu.wms.common.result.Result;
-import com.atguigu.wms.model.base.Dict;
 import com.atguigu.wms.model.base.ShipperInfo;
-import com.baomidou.mybatisplus.core.conditions.Wrapper;
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.atguigu.wms.vo.base.ShipperInfoQueryVo;
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
-
 /**
  * @author qy
  */
 //@CrossOrigin //跨域
-@Api(tags = "数据字典管理")
+@Api(tags = "ShipperInfo管理")
 @RestController
 @RequestMapping(value = "/admin/base/shipperInfo")
 public class ShipperInfoController {
@@ -29,14 +26,19 @@ public class ShipperInfoController {
     /**
      * 分页查询货主列表信息
      *
-     * @param id
+     * @param page
+     * @param limit
+     * @param shipperInfoQueryVo
      * @return
      */
     @ApiOperation(value = "分页查询货主列表信息")
     @GetMapping("{page}/{limit}")
-    public Result shipperInfo(@PathVariable Long id) {
-
-        return Result.ok();
+    public Result getPageList(@PathVariable Integer page,
+                              @PathVariable Integer limit,
+                              @RequestParam(required = false) ShipperInfoQueryVo shipperInfoQueryVo) {
+        IPage<ShipperInfo> retPage = new Page<>(page, limit);
+        retPage = shipperInfoService.getPageList(retPage, shipperInfoQueryVo);
+        return Result.ok(retPage);
     }
 
     /**

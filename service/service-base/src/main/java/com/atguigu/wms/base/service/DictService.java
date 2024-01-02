@@ -12,7 +12,7 @@ public interface DictService extends IService<Dict> {
 
     List<Dict> findByParentId(Integer parentId);
 
-    List<Dict> findByDictCode(Integer dictCode);
+    List<Dict> findByDictCode(String dictCode);
 
     /**
      * 根据上级编码与值获取数据字典名称

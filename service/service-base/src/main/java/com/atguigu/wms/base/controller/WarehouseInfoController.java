@@ -1,25 +1,15 @@
 package com.atguigu.wms.base.controller;
 
-import com.atguigu.wms.common.security.AuthContextHolder;
-import com.atguigu.wms.model.base.StoreshelfInfo;
-import com.atguigu.wms.model.base.WarehouseInfo;
-import com.atguigu.wms.vo.base.WarehouseInfoQueryVo;
 import com.atguigu.wms.base.service.WarehouseInfoService;
-import com.atguigu.wms.vo.outbound.OutOrderAddressVo;
-import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.atguigu.wms.common.result.Result;
+import com.atguigu.wms.model.base.WarehouseInfo;
+import com.atguigu.wms.vo.outbound.OutOrderAddressVo;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.ApiParam;
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
 import javax.annotation.Resource;
+import java.util.List;
 
 /**
  *
@@ -31,7 +21,7 @@ import javax.annotation.Resource;
 @RequestMapping(value="/admin/base/warehouseInfo")
 @SuppressWarnings({"unchecked", "rawtypes"})
 public class WarehouseInfoController {
-	
+
 	@Resource
 	private WarehouseInfoService warehouseInfoService;
 
