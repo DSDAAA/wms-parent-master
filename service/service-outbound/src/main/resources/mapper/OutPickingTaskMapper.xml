@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
+"http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+
+
+<mapper namespace="com.atguigu.wms.outbound.mapper.OutPickingTaskMapper">
+
+	<resultMap id="outPickingTaskMap" type="com.atguigu.wms.model.outbound.OutPickingTask" autoMapping="true">
+	</resultMap>
+	
+	<!-- 用于select查询公用抽取的列 -->
+	<sql id="columns">
+		id,task_no,warehouse_id,storearea_id,storeshelf_id,storehouse_id,picking_time,picking_user_id,picking_user,picking_count,status,create_id,create_name,update_id,update_name,create_time,update_time,is_deleted
+	</sql>
+	
+	<sql id="findPageWhere">
+		<where>	      				
+	       <if test="vo.taskNo != null and vo.taskNo != ''">
+				and task_no = #{vo.taskNo}
+			</if>
+	       <if test="vo.warehouseId != null and vo.warehouseId != ''">
+				and warehouse_id = #{vo.warehouseId}
+			</if>
+	       <if test="vo.storeareaId != null and vo.storeareaId != ''">
+				and storearea_id = #{vo.storeareaId}
+			</if>
+	       <if test="vo.storeshelfId != null and vo.storeshelfId != ''">
+				and storeshelf_id = #{vo.storeshelfId}
+			</if>
+	       <if test="vo.status != null">
+				and status = #{vo.status}
+			</if>
+	       <if test="vo.createTimeBegin != null and vo.createTimeBegin != ''">
+				and create_time >= #{vo.createTimeBegin}
+		   </if>
+		   <if test="vo.createTimeEnd != null and vo.createTimeEnd != ''">
+				and create_time &lt;= #{vo.createTimeEnd}
+		   </if>
+			and is_deleted = 0
+		</where>
+	</sql>
+    
+    <select id="selectPage" resultMap="outPickingTaskMap">
+    	select <include refid="columns" />
+	    from out_picking_task
+		<include refid="findPageWhere"/>
+		order by id desc
+    </select>
+
+</mapper>
+

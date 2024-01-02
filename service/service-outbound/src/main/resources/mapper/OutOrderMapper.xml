@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
+"http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+
+
+<mapper namespace="com.atguigu.wms.outbound.mapper.OutOrderMapper">
+
+	<resultMap id="outOrderMap" type="com.atguigu.wms.model.outbound.OutOrder" autoMapping="true">
+	</resultMap>
+	
+	<!-- 用于select查询公用抽取的列 -->
+	<sql id="columns">
+		id,out_order_no,order_no,consignee,consignee_tel,province_id,city_id,area_id,delivery_address,order_comment,tracking_no,tracking_company,warehouse_id,status,create_id,create_name,update_id,update_name,create_time,update_time,is_deleted
+	</sql>
+	
+	<sql id="findPageWhere">
+		<where>
+			<if test="vo.keyword != null and vo.keyword != ''">
+				and (consignee like CONCAT('%',#{vo.keyword},'%') or consignee_tel like CONCAT('%',#{vo.keyword},'%')
+			</if>
+			<if test="vo.no != null and vo.no != ''">
+				and (out_order_no like CONCAT('%',#{vo.no},'%') or order_no like CONCAT('%',#{vo.no},'%'))
+			</if>
+	       <if test="vo.provinceId != null and vo.provinceId != ''">
+				and province_id = #{vo.provinceId}
+			</if>
+	       <if test="vo.cityId != null and vo.cityId != ''">
+				and city_id = #{vo.cityId}
+			</if>
+	       <if test="vo.areaId != null and vo.areaId != ''">
+				and area_id = #{vo.areaId}
+			</if>
+	       <if test="vo.warehouseId != null and vo.warehouseId != ''">
+				and warehouse_id = #{vo.warehouseId}
+			</if>
+	       <if test="vo.status != null">
+				and status = #{vo.status}
+			</if>
+	       <if test="vo.createTimeBegin != null and vo.createTimeBegin != ''">
+				and create_time >= #{vo.createTimeBegin}
+		   </if>
+		   <if test="vo.createTimeEnd != null and vo.createTimeEnd != ''">
+				and create_time &lt;= #{vo.createTimeEnd}
+		   </if>
+			and is_deleted = 0
+		</where>
+	</sql>
+    
+    <select id="selectPage" resultMap="outOrderMap">
+    	select <include refid="columns" />
+	    from out_order
+		<include refid="findPageWhere"/>
+		order by id desc
+    </select>
+
+</mapper>
+

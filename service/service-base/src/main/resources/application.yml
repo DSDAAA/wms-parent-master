@@ -1,0 +1,10 @@
+spring:
+  application:
+    name: service-base
+  profiles:
+    active: test
+  cloud:
+    nacos:
+      discovery:
+        server-addr: 192.168.76.100:8848
+        #namespace: 15b485f3-2165-46f8-8791-5d1fe61d674d

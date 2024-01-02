@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="CompilerConfiguration">
+    <annotationProcessing>
+      <profile default="true" name="Default" enabled="true" />
+      <profile name="Maven default annotation processors profile" enabled="true">
+        <sourceOutputDir name="target/generated-sources/annotations" />
+        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
+        <outputRelativeToContentRoot value="true" />
+        <module name="service-acl-client" />
+        <module name="server-gateway" />
+        <module name="common-util" />
+        <module name="service-base" />
+        <module name="service-base-client" />
+        <module name="service-outbound-client" />
+        <module name="service-inventory" />
+        <module name="service-util" />
+        <module name="service-acl" />
+        <module name="service-inbound" />
+        <module name="rabbit-util" />
+        <module name="spring-security" />
+        <module name="model" />
+        <module name="service-outbound" />
+        <module name="service-inventory-client" />
+      </profile>
+    </annotationProcessing>
+  </component>
+  <component name="JavacSettings">
+    <option name="ADDITIONAL_OPTIONS_OVERRIDE">
+      <module name="common-util" options="-parameters" />
+      <module name="model" options="-parameters" />
+      <module name="rabbit-util" options="-parameters" />
+      <module name="server-gateway" options="-parameters" />
+      <module name="service-acl" options="-parameters" />
+      <module name="service-acl-client" options="-parameters" />
+      <module name="service-base" options="-parameters" />
+      <module name="service-base-client" options="-parameters" />
+      <module name="service-inbound" options="-parameters" />
+      <module name="service-inventory" options="-parameters" />
+      <module name="service-inventory-client" options="-parameters" />
+      <module name="service-outbound" options="-parameters" />
+      <module name="service-outbound-client" options="-parameters" />
+      <module name="service-util" options="-parameters" />
+      <module name="spring-security" options="-parameters" />
+    </option>
+  </component>
+</project>

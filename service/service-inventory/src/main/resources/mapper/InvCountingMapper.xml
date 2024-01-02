@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
+"http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+
+
+<mapper namespace="com.atguigu.wms.inventory.mapper.InvCountingMapper">
+
+	<resultMap id="invCountingMap" type="com.atguigu.wms.model.inventory.InvCounting" autoMapping="true">
+	</resultMap>
+	
+	<!-- 用于select查询公用抽取的列 -->
+	<sql id="columns">
+		id,inv_counting_no,reason_id,plan_counting_time,warehouse_id,storearea_id,storeshelf_id,storehouse_id,remarks,status,create_id,create_name,update_id,update_name,create_time,update_time,is_deleted
+	</sql>
+	
+	<sql id="findPageWhere">
+		<where>	      				
+	       <if test="vo.invCountingNo != null and vo.invCountingNo != ''">
+				and inv_counting_no = #{vo.invCountingNo}
+			</if>
+	       <if test="vo.reasonId != null and vo.reasonId != ''">
+				and reason_id = #{vo.reasonId}
+			</if>
+	       <if test="vo.planCountingTimeBegin != null and vo.planCountingTimeBegin != ''">
+				and plan_counting_time >= #{vo.planCountingTimeBegin}
+		   </if>
+		   <if test="vo.planCountingTimeEnd != null and vo.planCountingTimeEnd != ''">
+				and plan_counting_time &lt;= #{vo.planCountingTimeEnd}
+		   </if>
+	       <if test="vo.warehouseId != null and vo.warehouseId != ''">
+				and warehouse_id = #{vo.warehouseId}
+			</if>
+	       <if test="vo.storeareaId != null and vo.storeareaId != ''">
+				and storearea_id = #{vo.storeareaId}
+			</if>
+	       <if test="vo.storeshelfId != null and vo.storeshelfId != ''">
+				and storeshelf_id = #{vo.storeshelfId}
+			</if>
+	       <if test="vo.status != null">
+				and status = #{vo.status}
+			</if>
+			and is_deleted = 0
+		</where>
+	</sql>
+    
+    <select id="selectPage" resultMap="invCountingMap">
+    	select <include refid="columns" />
+	    from inv_counting
+		<include refid="findPageWhere"/>
+		order by id desc
+    </select>
+
+</mapper>
+

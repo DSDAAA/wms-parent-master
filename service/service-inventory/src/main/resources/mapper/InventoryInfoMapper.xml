@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
+"http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+
+
+<mapper namespace="com.atguigu.wms.inventory.mapper.InventoryInfoMapper">
+
+	<resultMap id="inventoryInfoMap" type="com.atguigu.wms.model.inventory.InventoryInfo" autoMapping="true">
+	</resultMap>
+	
+	<!-- 用于select查询公用抽取的列 -->
+	<sql id="columns">
+		id,goods_id,warehouse_id,storearea_id,storeshelf_id,storehouse_id,total_count,lock_count,available_count,picking_count,warning_count,sale_count,status,create_id,create_name,update_id,update_name,create_time,update_time,is_deleted
+	</sql>
+	
+	<sql id="findPageWhere">
+		<where>	      				
+	       <if test="vo.goodsId != null and vo.goodsId != ''">
+				and goods_id = #{vo.goodsId}
+			</if>
+	       <if test="vo.goodsName != null and vo.goodsName != ''">
+				and goods_name = #{vo.goodsName}
+			</if>
+	       <if test="vo.goodsCode != null and vo.goodsCode != ''">
+				and goods_code = #{vo.goodsCode}
+			</if>
+	       <if test="vo.shipperId != null and vo.shipperId != ''">
+				and shipper_id = #{vo.shipperId}
+			</if>
+	       <if test="vo.warehouseId != null and vo.warehouseId != ''">
+				and warehouse_id = #{vo.warehouseId}
+			</if>
+	       <if test="vo.storeareaId != null and vo.storeareaId != ''">
+				and storearea_id = #{vo.storeareaId}
+			</if>
+	       <if test="vo.storeshelfId != null and vo.storeshelfId != ''">
+				and storeshelf_id = #{vo.storeshelfId}
+			</if>
+	       <if test="vo.storehouseId != null and vo.storehouseId != ''">
+				and storehouse_id = #{vo.storehouseId}
+			</if>
+			and is_deleted = 0
+		</where>
+	</sql>
+    
+    <select id="selectPage" resultMap="inventoryInfoMap">
+    	select <include refid="columns" />
+	    from inventory_info
+		<include refid="findPageWhere"/>
+		order by id desc
+    </select>
+
+	<update id="putaway">
+        update inventory_info
+        set total_count = total_count + #{count}, available_count = available_count + #{count}
+        where warehouse_id = #{warehouseId} and goods_id = #{goodsId}
+    </update>
+
+	<select id="getCheck" resultMap="inventoryInfoMap">
+        select * from inventory_info where warehouse_id = #{warehouseId} and goods_id = #{goodsId} for update
+    </select>
+
+	<select id="check" resultMap="inventoryInfoMap">
+        select * from inventory_info where goods_id = #{goodsId} and available_count > #{count} for update
+    </select>
+
+	<update id="lock">
+        update inventory_info
+        set lock_count = lock_count + #{count}, available_count = available_count - #{count}
+        where warehouse_id = #{warehouseId} and goods_id = #{goodsId}
+    </update>
+
+	<update id="unLock">
+        update inventory_info
+        set lock_count = lock_count - #{count}, available_count = available_count + #{count}
+        where warehouse_id = #{warehouseId} and goods_id = #{goodsId}
+    </update>
+
+	<update id="minus">
+        update inventory_info
+        set lock_count = lock_count - #{count}, total_count = total_count - #{count}, sale_count = sale_count + #{count}, picking_count = picking_count - #{count}
+        where warehouse_id = #{warehouseId} and goods_id = #{goodsId}
+    </update>
+
+	<update id="updatePicking">
+        update inventory_info
+        set picking_count = picking_count + #{count}
+        where warehouse_id = #{warehouseId} and goods_id = #{goodsId}
+    </update>
+</mapper>
+

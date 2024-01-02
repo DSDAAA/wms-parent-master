@@ -1,0 +1,10 @@
+spring:
+  application:
+    name: service-inbound
+  profiles:
+    active: dev
+  cloud:
+    nacos:
+      discovery:
+        server-addr: 39.99.129.91:8848
+        #namespace: 15b485f3-2165-46f8-8791-5d1fe61d674d

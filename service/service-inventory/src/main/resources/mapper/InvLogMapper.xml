@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
+"http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+
+
+<mapper namespace="com.atguigu.wms.inventory.mapper.InvLogMapper">
+
+	<resultMap id="invLogMap" type="com.atguigu.wms.model.inventory.InvLog" autoMapping="true">
+	</resultMap>
+	
+	<!-- 用于select查询公用抽取的列 -->
+	<sql id="columns">
+		id,warehouse_id, goods_id,log_type,alteration_count,remarks, status,create_id,create_name,update_id,update_name,create_time,update_time,is_deleted
+	</sql>
+	
+	<sql id="findPageWhere">
+		<where>
+			<if test="vo.warehouseId != null and vo.warehouseId != ''">
+				and warehouse_id = #{vo.warehouseId}
+			</if>
+	       <if test="vo.goodsId != null and vo.goodsId != ''">
+				and goods_id = #{vo.goodsId}
+			</if>
+	       <if test="vo.logType != null and vo.logType != ''">
+				and log_type = #{vo.logType}
+			</if>
+	       <if test="vo.createTimeBegin != null and vo.createTimeBegin != ''">
+				and create_time >= #{vo.createTimeBegin}
+		   </if>
+		   <if test="vo.createTimeEnd != null and vo.createTimeEnd != ''">
+				and create_time &lt;= #{vo.createTimeEnd}
+		   </if>
+			and is_deleted = 0
+		</where>
+	</sql>
+    
+    <select id="selectPage" resultMap="invLogMap">
+    	select <include refid="columns" />
+	    from inv_log
+		<include refid="findPageWhere"/>
+		order by id desc
+    </select>
+
+</mapper>
+

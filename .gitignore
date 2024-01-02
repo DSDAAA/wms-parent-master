@@ -1,0 +1,9 @@
+# Project exclude paths
+/common/common-util/target/
+/common/rabbit-util/target/
+/common/service-util/target/
+/common/spring-security/target/
+/service-client/service-acl-client/target/
+/service-client/service-base-client/target/
+/service-client/service-inventory-client/target/
+/service-client/service-outbound-client/target/

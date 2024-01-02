@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
+"http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+
+
+<mapper namespace="com.atguigu.wms.inventory.mapper.InvCountingTaskMapper">
+
+	<resultMap id="invCountingTaskMap" type="com.atguigu.wms.model.inventory.InvCountingTask" autoMapping="true">
+	</resultMap>
+	
+	<!-- 用于select查询公用抽取的列 -->
+	<sql id="columns">
+		id,task_no,inv_counting_no,inv_counting_id,counting_user_id,counting_user,counting_complete_time,remarks,warehouse_id,status,create_id,create_name,update_id,update_name,create_time,update_time,is_deleted
+	</sql>
+	
+	<sql id="findPageWhere">
+		<where>
+			<if test="vo.no != null and vo.no != ''">
+				and (task_no like CONCAT('%',#{vo.no},'%') or inv_counting_no like CONCAT('%',#{vo.no},'%'))
+			</if>
+			<if test="vo.warehouseId != null and vo.warehouseId != ''">
+				and warehouse_id = #{vo.warehouseId}
+			</if>
+	       <if test="vo.status != null">
+				and status = #{vo.status}
+			</if>
+			<if test="vo.createTimeBegin != null and vo.createTimeBegin != ''">
+				and create_time >= #{vo.createTimeBegin}
+			</if>
+			<if test="vo.createTimeEnd != null and vo.createTimeEnd != ''">
+				and create_time &lt;= #{vo.createTimeEnd}
+			</if>
+			and is_deleted = 0
+		</where>
+	</sql>
+    
+    <select id="selectPage" resultMap="invCountingTaskMap">
+    	select <include refid="columns" />
+	    from inv_counting_task
+		<include refid="findPageWhere"/>
+		order by id desc
+    </select>
+
+</mapper>
+
