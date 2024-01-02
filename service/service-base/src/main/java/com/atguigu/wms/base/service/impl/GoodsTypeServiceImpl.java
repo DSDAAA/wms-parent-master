@@ -24,17 +24,11 @@ import java.util.*;
 public class GoodsTypeServiceImpl extends ServiceImpl<GoodsTypeMapper, GoodsType> implements GoodsTypeService {
 
 
-
-
-	@Override
-	public String getNameById(Long id) {
-		GoodsType goodsType = this.getById(id);
-		return goodsType.getName();
-	}
-
-
-
-
+    @Override
+    public String getNameById(Long id) {
+        GoodsType goodsType = this.getById(id);
+        return goodsType.getName();
+    }
 
 
 }

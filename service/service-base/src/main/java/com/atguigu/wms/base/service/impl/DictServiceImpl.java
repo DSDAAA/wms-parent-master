@@ -23,33 +23,64 @@ import java.util.*;
 @Service
 public class DictServiceImpl extends ServiceImpl<DictMapper, Dict> implements DictService {
 
-	@Autowired
-	private DictMapper dictMapper;
+    @Autowired
+    private DictMapper dictMapper;
 
-	/**
-	 * 根据上级id获取子节点数据列表
-	 * allEntries = true: 方法调用后清空所有缓存
-	 * beforeInvocation = true：方法调用前清空所有缓存
-	 * @param parentId
-	 */
-
-
-	/**
-	 * 导入
-	 * allEntries = true: 方法调用后清空所有缓存
-	 * beforeInvocation = true：方法调用前清空所有缓存
-	 * @param file
-	 */
-	//@CacheEvict(value = "dict", allEntries=true)
+    /**
+     * 根据上级id获取子节点数据列表
+     * allEntries = true: 方法调用后清空所有缓存
+     * beforeInvocation = true：方法调用前清空所有缓存
+     * @param parentId
+     */
 
 
-	@Cacheable(value = "dict",keyGenerator = "keyGenerator")
-	@Override
-	public String getNameById(Long id) {
-		Dict dict = this.getById(id);
-		if(null == dict) return "";
-		return dict.getName();
-	}
+    /**
+     * 导入
+     * allEntries = true: 方法调用后清空所有缓存
+     * beforeInvocation = true：方法调用前清空所有缓存
+     *
+     * @param file
+     */
+    //@CacheEvict(value = "dict", allEntries=true)
+    @Cacheable(value = "dict", keyGenerator = "keyGenerator")
+    @Override
+    public String getNameById(Long id) {
+        Dict dict = this.getById(id);
+        if (null == dict) return "";
+        return dict.getName();
+    }
+
+    /**
+     * 根据上级id获取子节点数据列表（需要先实现，后面会复用,很重要）
+     * Path：http://192.168.200.1 /admin/base/dict/findByParentId/{parentId}
+     * Method：Get
+     *
+     * @param parentId
+     * @return
+     */
+    @Override
+    public List<Dict> findByParentId(Integer parentId) {
+        QueryWrapper queryWrapper = new QueryWrapper();
+        queryWrapper.eq("parent_id", parentId);
+        List<Dict> list = dictMapper.selectList(queryWrapper);
+        return list;
+    }
+
+    /**
+     * 根据数据字典数据编码找到下面所有的子节点
+     * Path：http://192.168.200.1/admin/base/dict//{dictCode}
+     * Method：Get
+     *
+     * @param dictCode
+     * @return
+     */
+    @Override
+    public List<Dict> findByDictCode(Integer dictCode) {
+        QueryWrapper queryWrapper = new QueryWrapper();
+        queryWrapper.eq("dict_code", dictCode);
+        List<Dict> list = dictMapper.selectList(queryWrapper);
+        return list;
+    }
 
 
 //	@Cacheable(value = "dict",keyGenerator = "keyGenerator")

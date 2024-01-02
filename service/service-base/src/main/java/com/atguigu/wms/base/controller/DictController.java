@@ -29,7 +29,32 @@ public class DictController {
         return dictService.getNameById(id);
     }
 
+    /**
+     * 根据id获取子节点数据列表
+     *
+     * @param parentId
+     * @return
+     * @actor Dunston
+     */
+    @ApiOperation(value = "根据id获取子节点数据列表")
+    @GetMapping("findByParentId/{parentId}")
+    public Result findByParentId(@PathVariable Integer parentId) {
+        List<Dict> retList = dictService.findByParentId(parentId);
+        return Result.ok(retList);
+    }
 
+    /**
+     * 根据数据字典数据编码找到下面所有的子节点
+     *
+     * @param dictCode
+     * @return
+     */
+    @ApiOperation(value = "根据数据字典数据编码找到下面所有的子节点")
+    @GetMapping("findByDictCode/{dictCode}")
+    public Result findByDictCode(@PathVariable Integer dictCode) {
+        List<Dict> retList = dictService.findByDictCode(dictCode);
+        return Result.ok(retList);
+    }
 //    @ApiOperation(value = "获取数据字典名称")
 //    @GetMapping(value = "/getName/{parentDictCode}/{value}")
 //    public String getName(

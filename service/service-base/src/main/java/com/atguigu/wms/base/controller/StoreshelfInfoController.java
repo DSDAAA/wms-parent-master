@@ -28,7 +28,7 @@ import javax.annotation.Resource;
 @RequestMapping(value="/admin/base/storeshelfInfo")
 @SuppressWarnings({"unchecked", "rawtypes"})
 public class StoreshelfInfoController {
-	
+
 	@Resource
 	private StoreshelfInfoService storeshelfInfoService;
 
@@ -41,7 +41,6 @@ public class StoreshelfInfoController {
 		storeshelfInfoService.removeByIds(idList);
 		return Result.ok();
 	}
-
 
 
 	@ApiOperation(value = "获取对象")

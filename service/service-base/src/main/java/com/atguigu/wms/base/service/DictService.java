@@ -10,6 +10,10 @@ public interface DictService extends IService<Dict> {
 
     String getNameById(Long id);
 
+    List<Dict> findByParentId(Integer parentId);
+
+    List<Dict> findByDictCode(Integer dictCode);
+
     /**
      * 根据上级编码与值获取数据字典名称
      * @param parentDictCode

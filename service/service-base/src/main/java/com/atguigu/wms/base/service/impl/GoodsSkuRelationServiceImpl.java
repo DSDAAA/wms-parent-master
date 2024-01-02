@@ -24,8 +24,8 @@ import java.util.Map;
 @SuppressWarnings({"unchecked", "rawtypes"})
 public class GoodsSkuRelationServiceImpl extends ServiceImpl<GoodsSkuRelationMapper, GoodsSkuRelation> implements GoodsSkuRelationService {
 
-	@Resource
-	private GoodsSkuRelationMapper goodsSkuRelationMapper;
+    @Resource
+    private GoodsSkuRelationMapper goodsSkuRelationMapper;
 
 
     @Override
@@ -34,10 +34,10 @@ public class GoodsSkuRelationServiceImpl extends ServiceImpl<GoodsSkuRelationMap
         return this.getOne(new LambdaQueryWrapper<GoodsSkuRelation>().eq(GoodsSkuRelation::getGoodsId, goodsId));
     }
 
-	@Override
-	public GoodsSkuRelation getBySkuId(Long skuId) {
-		return this.getOne(new LambdaQueryWrapper<GoodsSkuRelation>().eq(GoodsSkuRelation::getSkuId, skuId));
-	}
+    @Override
+    public GoodsSkuRelation getBySkuId(Long skuId) {
+        return this.getOne(new LambdaQueryWrapper<GoodsSkuRelation>().eq(GoodsSkuRelation::getSkuId, skuId));
+    }
 
 
 }

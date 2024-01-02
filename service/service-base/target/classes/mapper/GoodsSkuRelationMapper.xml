@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
+"http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+
+
+<mapper namespace="com.atguigu.wms.base.mapper.GoodsSkuRelationMapper">
+
+	<resultMap id="goodsSkuRelationMap" type="com.atguigu.wms.model.base.GoodsSkuRelation" autoMapping="true">
+	</resultMap>
+	
+	<!-- 用于select查询公用抽取的列 -->
+	<sql id="columns">
+		id,goods_id,sku_id,create_id,create_name,update_id,update_name,create_time,update_time,is_deleted
+	</sql>
+	
+	<sql id="findPageWhere">
+		<where>	      				
+	       <if test="vo.id != null and vo.id != ''">
+				and id = #{vo.id}
+			</if>
+	       <if test="vo.goodsId != null and vo.goodsId != ''">
+				and goods_id = #{vo.goodsId}
+			</if>
+	       <if test="vo.skuId != null and vo.skuId != ''">
+				and sku_id = #{vo.skuId}
+			</if>
+	       <if test="vo.createId != null and vo.createId != ''">
+				and create_id = #{vo.createId}
+			</if>
+	       <if test="vo.createName != null and vo.createName != ''">
+				and create_name = #{vo.createName}
+			</if>
+	       <if test="vo.updateId != null and vo.updateId != ''">
+				and update_id = #{vo.updateId}
+			</if>
+	       <if test="vo.updateName != null and vo.updateName != ''">
+				and update_name = #{vo.updateName}
+			</if>
+	       <if test="vo.createTimeBegin != null and vo.createTimeBegin != ''">
+				and create_time >= #{vo.createTimeBegin}
+		   </if>
+		   <if test="vo.createTimeEnd != null and vo.createTimeEnd != ''">
+				and create_time &lt;= #{vo.createTimeEnd}
+		   </if>
+	       <if test="vo.updateTimeBegin != null and vo.updateTimeBegin != ''">
+				and update_time >= #{vo.updateTimeBegin}
+		   </if>
+		   <if test="vo.updateTimeEnd != null and vo.updateTimeEnd != ''">
+				and update_time &lt;= #{vo.updateTimeEnd}
+		   </if>
+	       <if test="vo.isDeleted != null and vo.isDeleted != ''">
+				and is_deleted = #{vo.isDeleted}
+			</if>
+			and is_deleted = 0
+		</where>
+	</sql>
+    
+    <select id="selectPage" resultMap="goodsSkuRelationMap">
+    	select <include refid="columns" />
+	    from goods_sku_relation
+		<include refid="findPageWhere"/>
+		order by id desc
+    </select>
+
+</mapper>
+
