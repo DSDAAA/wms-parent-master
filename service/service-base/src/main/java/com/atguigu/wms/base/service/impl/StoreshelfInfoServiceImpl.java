@@ -136,5 +136,21 @@ public class StoreshelfInfoServiceImpl extends ServiceImpl<StoreshelfInfoMapper,
         storeareaInfoMapper.updateById(storeareaInfo);
     }
 
+    /**
+     * 根据库区id,查询库区下的所有货架
+     * Path：http://192.168.200.1:8100 /admin/base/storeshelfInfo/findByStoreareaId/{storeareaId}
+     * Method：Get
+     *
+     * @param storeareaId
+     * @return
+     */
+    @Override
+    public List<StoreareaInfo> findByStoreareaId(Integer storeareaId) {
+        QueryWrapper queryWrapper = new QueryWrapper();
+        queryWrapper.eq("storearea_id", storeareaId);
+        List<StoreareaInfo> list = storeshelfInfoMapper.selectList(queryWrapper);
+        return list;
+    }
+
 
 }

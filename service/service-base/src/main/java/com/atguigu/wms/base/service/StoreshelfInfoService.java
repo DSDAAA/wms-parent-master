@@ -1,5 +1,6 @@
 package com.atguigu.wms.base.service;
 
+import com.atguigu.wms.model.base.StoreareaInfo;
 import com.atguigu.wms.model.base.StoreshelfInfo;
 import com.atguigu.wms.vo.base.StoreshelfInfoQueryVo;
 import com.baomidou.mybatisplus.core.metadata.IPage;
@@ -20,4 +21,6 @@ public interface StoreshelfInfoService extends IService<StoreshelfInfo> {
     void update(StoreshelfInfo storeshelfInfo);
 
     void remove(Integer id);
+
+    List<StoreareaInfo> findByStoreareaId(Integer storeareaId);
 }

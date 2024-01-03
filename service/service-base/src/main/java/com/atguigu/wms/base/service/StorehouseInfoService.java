@@ -11,13 +11,13 @@ import java.util.Map;
 
 public interface StorehouseInfoService extends IService<StorehouseInfo> {
 
+    IPage<StorehouseInfo> getPageList(Page<StorehouseInfo> retPage, StorehouseInfoQueryVo storehouseInfoQueryVo);
 
-    List<StorehouseInfo> findByStoreshelfId(Long storeshelfId);
+    void saveStorehouse(StorehouseInfo storehouseInfo);
 
-    String getNameById(Long id);
+    StorehouseInfo getStorehouseInfo(Integer id);
 
-    List<String> findNameByIdList(List<Long> idList);
+    void update(StorehouseInfo storehouseInfo);
 
-
-
+    void remove(Integer id);
 }
