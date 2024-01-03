@@ -3,8 +3,6 @@ package com.atguigu.wms.base.controller;
 import com.atguigu.wms.base.service.GoodsInfoService;
 import com.atguigu.wms.common.result.Result;
 import com.atguigu.wms.model.base.GoodsInfo;
-import com.atguigu.wms.model.base.ShipperInfo;
-import com.atguigu.wms.vo.PageVo;
 import com.atguigu.wms.vo.base.GoodsInfoQueryVo;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
@@ -57,7 +55,7 @@ public class GoodsInfoController {
      */
     @ApiOperation(value = "获取分页列表")
     @PostMapping("findPage/{page}/{limit}")
-    public PageVo<GoodsInfo> findPage(
+    public Result findPage(
             @ApiParam(name = "page", value = "当前页码", required = true)
             @PathVariable Long page,
 
@@ -69,7 +67,7 @@ public class GoodsInfoController {
         Page<GoodsInfo> retPage = new Page<>(page, limit);
         IPage<GoodsInfo> pageModel = goodsInfoService.getPageList(retPage, goodsInfoQueryVo);
         //IPage<GoodsInfo> pageModel = goodsInfoService.selectPage(pageParam, goodsInfoQueryVo);
-        return new PageVo<>(pageModel);
+        return Result.ok(pageModel);
     }
 
     @ApiOperation(value = "获取")

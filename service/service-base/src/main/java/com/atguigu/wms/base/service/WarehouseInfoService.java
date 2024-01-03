@@ -23,8 +23,11 @@ public interface WarehouseInfoService extends IService<WarehouseInfo> {
 
     List<Long> findPriorityWarehouseIdList(OutOrderAddressVo outOrderAddressVo);
 
+    IPage<WarehouseInfo> getPageList(Page<WarehouseInfo> retPage, WarehouseInfoQueryVo warehouseInfoQueryVo);
 
+    WarehouseInfo get(Integer id);
 
+    void update(WarehouseInfo warehouseInfo);
 
-
+    void remove(Integer id);
 }

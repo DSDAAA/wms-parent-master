@@ -84,6 +84,7 @@ public class ShipperInfoServiceImpl extends ServiceImpl<ShipperInfoMapper, Shipp
         if (provinceId != 0) {
             queryWrapper.eq("province_id", provinceId);
         }
+        queryWrapper.eq("is_deleted", 0);
         IPage<ShipperInfo> iPage = shipperInfoMapper.selectPage(retPage, queryWrapper);
         return iPage;
     }
