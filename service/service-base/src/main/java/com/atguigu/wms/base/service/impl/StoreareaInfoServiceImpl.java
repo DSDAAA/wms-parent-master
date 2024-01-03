@@ -142,5 +142,21 @@ public class StoreareaInfoServiceImpl extends ServiceImpl<StoreareaInfoMapper, S
         storeareaInfoMapper.insert(storeareaInfo);
     }
 
+    /**
+     * 根据仓库id,查询仓库下的所有库区
+     * Path：http://192.168.200.1:8100/admin/base/storeareaInfo/findByWarehouseId/{warehouseId}
+     * Method：Get
+     *
+     * @param warehouseId
+     * @return
+     */
+    @Override
+    public List<StoreareaInfo> findByWarehouseId(Integer warehouseId) {
+        QueryWrapper queryWrapper = new QueryWrapper();
+        queryWrapper.eq("warehouse_id", warehouseId);
+        List<StoreareaInfo> list = storeareaInfoMapper.selectList(queryWrapper);
+        return list;
+    }
+
 
 }

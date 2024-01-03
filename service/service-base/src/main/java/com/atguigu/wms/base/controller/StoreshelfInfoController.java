@@ -52,5 +52,59 @@ public class StoreshelfInfoController {
         //IPage<GoodsInfo> pageModel = goodsInfoService.selectPage(pageParam, goodsInfoQueryVo);
         return Result.ok(pageModel);
     }
+
+    /**
+     * 添加货架
+     *
+     * @param storeshelfInfo
+     * @return
+     */
+    @ApiOperation(value = "添加货架")
+    @PostMapping("save")
+    public Result saveStoreshelf(
+            @ApiParam(name = "storeshelfInfo", value = "货架对象")
+            @RequestBody StoreshelfInfo storeshelfInfo) {
+        storeshelfInfoService.saveStoreshelf(storeshelfInfo);
+        return Result.ok();
+    }
+
+    /**
+     * 根据货架id,查询货架信息
+     *
+     * @param id
+     * @return
+     */
+    @ApiOperation(value = "根据货架id,查询货架信息")
+    @GetMapping("get/{id}")
+    public Result get(@PathVariable Integer id) {
+        StoreshelfInfo ret = storeshelfInfoService.get(id);
+        return Result.ok(ret);
+    }
+
+    /**
+     * 修改货架信息
+     *
+     * @param storeshelfInfo
+     * @return
+     */
+    @ApiOperation(value = "修改货架信息")
+    @PutMapping("update")
+    public Result update(@RequestBody StoreshelfInfo storeshelfInfo) {
+        storeshelfInfoService.update(storeshelfInfo);
+        return Result.ok();
+    }
+
+    /**
+     * 删除货架信息
+     *
+     * @param id
+     * @return
+     */
+    @ApiOperation(value = "删除货架信息")
+    @DeleteMapping("remove/{id}")
+    public Result remove(@PathVariable Integer id) {
+        storeshelfInfoService.remove(id);
+        return Result.ok();
+    }
 }
 

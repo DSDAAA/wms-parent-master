@@ -12,4 +12,12 @@ import java.util.Map;
 public interface StoreshelfInfoService extends IService<StoreshelfInfo> {
 
     IPage<StoreshelfInfo> getPageList(Page<StoreshelfInfo> retPage, StoreshelfInfoQueryVo storeshelfInfoQueryVo);
+
+    void saveStoreshelf(StoreshelfInfo storeshelfInfo);
+
+    StoreshelfInfo get(Integer id);
+
+    void update(StoreshelfInfo storeshelfInfo);
+
+    void remove(Integer id);
 }

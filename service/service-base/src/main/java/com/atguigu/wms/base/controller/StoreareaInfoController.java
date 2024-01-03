@@ -16,6 +16,7 @@ import io.swagger.annotations.ApiParam;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
+import java.util.List;
 
 /**
  * @author Dunston
@@ -28,18 +29,6 @@ public class StoreareaInfoController {
 
     @Resource
     private StoreareaInfoService storeareaInfoService;
-
-    @ApiOperation(value = "获取对象")
-    @GetMapping("getStoreareaInfo/{id}")
-    public StoreareaInfo getStoreareaInfo(@PathVariable Long id) {
-        return storeareaInfoService.getById(id);
-    }
-
-    @ApiOperation(value = "获取名称")
-    @GetMapping("getNameById/{id}")
-    public String getNameById(@PathVariable Long id) {
-        return storeareaInfoService.getNameById(id);
-    }
 
     /**
      * 分页查询库区列表信息
@@ -118,6 +107,19 @@ public class StoreareaInfoController {
     public Result remove(@PathVariable Integer id) {
         storeareaInfoService.remove(id);
         return Result.ok();
+    }
+
+    /**
+     * 根据仓库id,查询仓库下的所有库区
+     *
+     * @param warehouseId
+     * @return
+     */
+    @ApiOperation(value = "根据仓库id,查询仓库下的所有库区")
+    @GetMapping("findByWarehouseId/{warehouseId}")
+    public Result findByWarehouseId(@PathVariable Integer warehouseId) {
+        List<StoreareaInfo> list = storeareaInfoService.findByWarehouseId(warehouseId);
+        return Result.ok(list);
     }
 }
 

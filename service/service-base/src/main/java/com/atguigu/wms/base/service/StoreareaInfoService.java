@@ -24,4 +24,6 @@ public interface StoreareaInfoService extends IService<StoreareaInfo> {
     void remove(Integer id);
 
     void saveWarehouse(StoreareaInfo storeareaInfo);
+
+    List<StoreareaInfo> findByWarehouseId(Integer warehouseId);
 }
