@@ -1,27 +1,22 @@
 package com.atguigu.wms.base.service.impl;
 
-import com.atguigu.wms.base.service.*;
-import com.atguigu.wms.common.execption.WmsException;
-import com.atguigu.wms.common.result.ResultCodeEnum;
-import com.atguigu.wms.model.base.*;
-import com.atguigu.wms.vo.base.GoodsInfoQueryVo;
 import com.atguigu.wms.base.mapper.GoodsInfoMapper;
+import com.atguigu.wms.base.service.*;
+import com.atguigu.wms.model.base.GoodsInfo;
+import com.atguigu.wms.model.base.GoodsSkuRelation;
+import com.atguigu.wms.model.base.GoodsType;
+import com.atguigu.wms.vo.base.GoodsInfoQueryVo;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 
 import javax.annotation.Resource;
-import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 @Service
 @SuppressWarnings({"unchecked", "rawtypes"})
@@ -120,6 +115,7 @@ public class GoodsInfoServiceImpl extends ServiceImpl<GoodsInfoMapper, GoodsInfo
         QueryWrapper queryWrapper = new QueryWrapper();
         if (!StringUtils.isEmpty(keyword)) {
             queryWrapper.like("name", keyword);
+            //todo 后续加
         }
         if (goodsTypeId != 0) {
             queryWrapper.eq("goods_type_id", goodsTypeId);

@@ -106,5 +106,18 @@ public class StoreshelfInfoController {
         storeshelfInfoService.remove(id);
         return Result.ok();
     }
+
+    /**
+     * 根据库区id,查询库区下的所有货架
+     *
+     * @param storeareaId
+     * @return
+     */
+    @ApiOperation(value = "根据库区id,查询库区下的所有货架")
+    @GetMapping("findByStoreareaId/{storeareaId}")
+    public Result findByStoreareaId(@PathVariable Integer storeareaId) {
+        List<StoreareaInfo> retList = storeshelfInfoService.findByStoreareaId(storeareaId);
+        return Result.ok(retList);
+    }
 }
 
