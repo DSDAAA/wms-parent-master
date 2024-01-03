@@ -38,7 +38,7 @@ public class StorehouseInfoController {
      * @return
      */
     @ApiOperation(value = "分页查询库位列表信息")
-    @PostMapping("findPage/{page}/{limit}")
+    @GetMapping("{page}/{limit}")
     public Result findPage(
             @ApiParam(name = "page", value = "当前页码", required = true)
             @PathVariable Long page,
@@ -47,7 +47,7 @@ public class StorehouseInfoController {
             @PathVariable Long limit,
 
             @ApiParam(name = "storeareaInfo", value = "查询对象", required = false)
-            @RequestBody StorehouseInfoQueryVo storehouseInfoQueryVo) {
+            @RequestBody(required = false) StorehouseInfoQueryVo storehouseInfoQueryVo) {
         Page<StorehouseInfo> retPage = new Page<>(page, limit);
         IPage<StorehouseInfo> pageModel = storehouseInfoService.getPageList(retPage, storehouseInfoQueryVo);
         //IPage<GoodsInfo> pageModel = goodsInfoService.selectPage(pageParam, goodsInfoQueryVo);

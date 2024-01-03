@@ -33,14 +33,14 @@ public class ShipperInfoController {
      * @return
      */
     @ApiOperation(value = "分页查询货主列表信息")
-    @PostMapping("findPage/{page}/{limit}")
+    @GetMapping("{page}/{limit}")
     public Result getPageList(
             @ApiParam(name = "page", value = "当前页码", required = true)
             @PathVariable Long page,
             @ApiParam(name = "limit", value = "每页记录数", required = true)
             @PathVariable Long limit,
             @ApiParam(name = "shipperInfoVo", value = "查询对象", required = false)
-            @RequestBody ShipperInfoQueryVo shipperInfoQueryVo) {
+            @RequestBody(required = false) ShipperInfoQueryVo shipperInfoQueryVo) {
         Page<ShipperInfo> retPage = new Page<>(page, limit);
         IPage<ShipperInfo> pageModel = shipperInfoService.getPageList(retPage, shipperInfoQueryVo);
         return Result.ok(pageModel);

@@ -1,5 +1,5 @@
 server:
-  port: 8101
+  port: 8109
 
 mybatis-plus:
   type-enums-package: com.atguigu.wms.enums
@@ -20,10 +20,10 @@ spring:
     allow-bean-definition-overriding: true #当遇到同样名字的时候，是否允许覆盖注册
   redis:
     host: 192.168.76.100
-    port: 6379
+    port: 6389
     database: 0
     timeout: 1800000
-    password: hzk123456
+    password:
     jedis:
       pool:
         max-active: 20 #最大连接数
@@ -33,9 +33,9 @@ spring:
   datasource:
     type: com.zaxxer.hikari.HikariDataSource
     driver-class-name: com.mysql.jdbc.Driver
-    url: jdbc:mysql://192.168.76.100:3306/wms_acl?characterEncoding=utf-8&useSSL=false
+    url: jdbc:mysql://192.168.76.100:3316/wms_acl?characterEncoding=utf-8&useSSL=false
     username: root
-    password: root
+    password: 123
     hikari:
       connection-test-query: SELECT 1
       connection-timeout: 60000

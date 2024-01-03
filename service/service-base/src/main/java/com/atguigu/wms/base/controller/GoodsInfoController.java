@@ -54,14 +54,14 @@ public class GoodsInfoController {
      * @return
      */
     @ApiOperation(value = "获取分页列表")
-    @PostMapping("findPage/{page}/{limit}")
+    @GetMapping("{page}/{limit}")
     public Result findPage(
             @ApiParam(name = "page", value = "当前页码", required = true)
             @PathVariable Long page,
             @ApiParam(name = "limit", value = "每页记录数", required = true)
             @PathVariable Long limit,
             @ApiParam(name = "goodsInfoVo", value = "查询对象", required = false)
-            @RequestBody GoodsInfoQueryVo goodsInfoQueryVo) {
+            @RequestBody(required = false) GoodsInfoQueryVo goodsInfoQueryVo) {
         Page<GoodsInfo> retPage = new Page<>(page, limit);
         IPage<GoodsInfo> pageModel = goodsInfoService.getPageList(retPage, goodsInfoQueryVo);
         //IPage<GoodsInfo> pageModel = goodsInfoService.selectPage(pageParam, goodsInfoQueryVo);

@@ -65,22 +65,24 @@ public class ShipperInfoServiceImpl extends ServiceImpl<ShipperInfoMapper, Shipp
 
     @Override
     public IPage<ShipperInfo> getPageList(IPage<ShipperInfo> retPage, ShipperInfoQueryVo shipperInfoQueryVo) {
-        Long areaId = shipperInfoQueryVo.getAreaId();
-        String keyword = shipperInfoQueryVo.getKeyword();
-        Long cityId = shipperInfoQueryVo.getCityId();
-        Long provinceId = shipperInfoQueryVo.getProvinceId();
         QueryWrapper queryWrapper = new QueryWrapper();
-        if (areaId != 0) {
-            queryWrapper.eq("area_id", areaId);
-        }
-        if (!StringUtils.isEmpty(keyword)) {
-            queryWrapper.like("name", keyword);
-        }
-        if (cityId != 0) {
-            queryWrapper.eq("city_id", cityId);
-        }
-        if (provinceId != 0) {
-            queryWrapper.eq("province_id", provinceId);
+        if (shipperInfoQueryVo != null) {
+            Long areaId = shipperInfoQueryVo.getAreaId();
+            String keyword = shipperInfoQueryVo.getKeyword();
+            Long cityId = shipperInfoQueryVo.getCityId();
+            Long provinceId = shipperInfoQueryVo.getProvinceId();
+            if (areaId != 0) {
+                queryWrapper.eq("area_id", areaId);
+            }
+            if (!StringUtils.isEmpty(keyword)) {
+                queryWrapper.like("name", keyword);
+            }
+            if (cityId != 0) {
+                queryWrapper.eq("city_id", cityId);
+            }
+            if (provinceId != 0) {
+                queryWrapper.eq("province_id", provinceId);
+            }
         }
         queryWrapper.eq("is_deleted", 0);
         IPage<ShipperInfo> iPage = shipperInfoMapper.selectPage(retPage, queryWrapper);

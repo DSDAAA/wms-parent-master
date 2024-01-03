@@ -3,10 +3,10 @@ server:
 spring:
   redis:
     host: 192.168.76.100
-    port: 6379
+    port: 6389
     database: 0
     timeout: 1800000
-    password: hzk123456
+    password:
   cloud:
 #    nacos:
 #      discovery:

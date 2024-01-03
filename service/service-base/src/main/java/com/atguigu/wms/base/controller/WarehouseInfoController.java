@@ -27,44 +27,6 @@ public class WarehouseInfoController {
     @Resource
     private WarehouseInfoService warehouseInfoService;
 
-
-    @ApiOperation(value = "根据id列表删除")
-    @DeleteMapping("batchRemove")
-    public Result batchRemove(@RequestBody List<Long> idList) {
-        warehouseInfoService.removeByIds(idList);
-        return Result.ok();
-    }
-
-
-    @ApiOperation(value = "查询库位节点")
-    @GetMapping("findNodes")
-    public Result findNodes() {
-        return Result.ok(warehouseInfoService.findNodes());
-    }
-
-    @ApiOperation(value = "获取对象")
-    @GetMapping("getWarehouseInfo/{id}")
-    public WarehouseInfo getWarehouseInfo(@PathVariable Long id) {
-        return warehouseInfoService.getById(id);
-    }
-
-    @ApiOperation(value = "获取名称")
-    @GetMapping("getNameById/{id}")
-    public String getNameById(@PathVariable Long id) {
-        return warehouseInfoService.getNameById(id);
-    }
-
-    @PostMapping("findNameByIdList")
-    public List<String> findNameByIdList(@RequestBody List<Long> idList) {
-        return warehouseInfoService.findNameByIdList(idList);
-    }
-
-    @ApiOperation(value = "根据用户地址给满足条件的仓库指定优先级")
-    @PostMapping("findPriorityWarehouseIdList")
-    public List<Long> findNameByIdList(@RequestBody OutOrderAddressVo outOrderAddressVo) {
-        return warehouseInfoService.findPriorityWarehouseIdList(outOrderAddressVo);
-    }
-
     /**
      * 分页查询仓库列表信息
      *
@@ -74,7 +36,7 @@ public class WarehouseInfoController {
      * @return
      */
     @ApiOperation(value = "分页查询仓库列表信息")
-    @GetMapping("findPage/{page}/{limit}")
+    @GetMapping("{page}/{limit}")
     public Result findPage(
             @ApiParam(name = "page", value = "当前页码", required = true)
             @PathVariable Long page,
@@ -83,7 +45,7 @@ public class WarehouseInfoController {
             @PathVariable Long limit,
 
             @ApiParam(name = "page", value = "查询对象", required = false)
-            @PathVariable WarehouseInfoQueryVo warehouseInfoQueryVo) {
+            @PathVariable(required = false) WarehouseInfoQueryVo warehouseInfoQueryVo) {
         Page<WarehouseInfo> retPage = new Page<>(page, limit);
         IPage<WarehouseInfo> pageModel = warehouseInfoService.getPageList(retPage, warehouseInfoQueryVo);
         return Result.ok(pageModel);

@@ -78,7 +78,11 @@ public class DictServiceImpl extends ServiceImpl<DictMapper, Dict> implements Di
     public List<Dict> findByDictCode(String dictCode) {
         QueryWrapper queryWrapper = new QueryWrapper();
         queryWrapper.eq("dict_code", dictCode);
-        List<Dict> list = dictMapper.selectList(queryWrapper);
+        Dict dict = dictMapper.selectOne(queryWrapper);
+        Long id = dict.getId();
+        QueryWrapper queryWrapper1 = new QueryWrapper();
+        queryWrapper1.eq("parent_id",id);
+        List<Dict> list = dictMapper.selectList(queryWrapper1);
         return list;
     }
 
