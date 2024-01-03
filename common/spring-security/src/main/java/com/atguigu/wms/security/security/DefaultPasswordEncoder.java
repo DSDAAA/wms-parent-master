@@ -9,7 +9,7 @@ import org.springframework.stereotype.Component;
  * t密码的处理方法类型
  * </p>
  *
- * @author qy
+ * @author Dunston
  * @since 2019-11-08
  */
 @Component

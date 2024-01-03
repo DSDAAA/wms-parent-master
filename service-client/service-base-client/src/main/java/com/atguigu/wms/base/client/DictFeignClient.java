@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.PostMapping;
  * 会员用户API接口
  * </p>
  *
- * @author qy
+ * @author Dunston
  */
 @FeignClient(value = "service-base", fallback = DictDegradeFeignClient.class)
 public interface DictFeignClient {

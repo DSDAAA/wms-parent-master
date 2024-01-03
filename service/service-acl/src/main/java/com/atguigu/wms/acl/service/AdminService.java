@@ -15,7 +15,7 @@ import java.util.List;
  * 用户服务接口
  * </p>
  *
- * @author qy
+ * @author Dunston
  * @since 2019-11-08
  */
 public interface AdminService extends IService<Admin> {

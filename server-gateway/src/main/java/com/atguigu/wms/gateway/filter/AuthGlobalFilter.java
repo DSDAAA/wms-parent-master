@@ -27,7 +27,7 @@ import java.util.List;
  * 全局Filter，统一处理用户登录与外部不允许访问的服务
  * </p>
  *
- * @author qy
+ * @author Dunston
  * @since 2019-11-21
  */
 @Slf4j

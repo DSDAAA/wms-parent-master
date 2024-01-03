@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 
 /**
  *
- * @author qy
+ * @author Dunston
  *
  */
 @FeignClient(value = "service-base", fallback = StoreshelfInfoDegradeFeignClient.class)

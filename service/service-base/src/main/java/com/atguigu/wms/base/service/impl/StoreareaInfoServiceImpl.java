@@ -1,5 +1,6 @@
 package com.atguigu.wms.base.service.impl;
 
+import com.atguigu.wms.base.mapper.WarehouseInfoMapper;
 import com.atguigu.wms.base.service.DictService;
 import com.atguigu.wms.base.service.WarehouseInfoService;
 import com.atguigu.wms.model.base.StoreareaInfo;
@@ -20,16 +21,15 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 
 import javax.annotation.Resource;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Service
 @SuppressWarnings({"unchecked", "rawtypes"})
 public class StoreareaInfoServiceImpl extends ServiceImpl<StoreareaInfoMapper, StoreareaInfo> implements StoreareaInfoService {
     @Autowired
     private StoreareaInfoMapper storeareaInfoMapper;
+    @Autowired
+    private WarehouseInfoMapper warehouseInfoMapper;
 
     @Cacheable(value = "storeareaInfo", keyGenerator = "keyGenerator")
     @Override
@@ -93,8 +93,11 @@ public class StoreareaInfoServiceImpl extends ServiceImpl<StoreareaInfoMapper, S
      */
     @Override
     public void update(StoreareaInfo storeareaInfo) {
+        Long id = storeareaInfo.getId();
+
+
         QueryWrapper queryWrapper = new QueryWrapper();
-        queryWrapper.eq("id", storeareaInfo.getId());
+        queryWrapper.eq("id", id);
         storeareaInfoMapper.update(storeareaInfo, queryWrapper);
     }
 
@@ -109,7 +112,34 @@ public class StoreareaInfoServiceImpl extends ServiceImpl<StoreareaInfoMapper, S
     public void remove(Integer id) {
         QueryWrapper queryWrapper = new QueryWrapper();
         queryWrapper.eq("id", id);
+        StoreareaInfo storeareaInfo = storeareaInfoMapper.selectOne(queryWrapper);
+        Long warehouseId = storeareaInfo.getWarehouseId();
+        QueryWrapper queryWrapper1 = new QueryWrapper();
+        queryWrapper1.eq("id", warehouseId);
+        WarehouseInfo warehouseInfo = warehouseInfoMapper.selectOne(queryWrapper1);
+        warehouseInfo.setStoreareaCount(warehouseInfo.getStoreareaCount() - 1);
+        warehouseInfo.setUpdateTime(new Date());
+        warehouseInfoMapper.update(warehouseInfo, queryWrapper1);
         storeareaInfoMapper.delete(queryWrapper);
+    }
+
+    /**
+     * 删除库区信息
+     * Path：http://192.168.200.1:8100/admin/base/storeareaInfo/remove/{id}
+     * Method：delete
+     *
+     * @param storeareaInfo
+     */
+    @Override
+    public void saveWarehouse(StoreareaInfo storeareaInfo) {
+        Long warehouseId = storeareaInfo.getWarehouseId();
+        QueryWrapper queryWrapper = new QueryWrapper();
+        queryWrapper.eq("id", warehouseId);
+        WarehouseInfo warehouseInfo = warehouseInfoMapper.selectOne(queryWrapper);
+        warehouseInfo.setUpdateTime(new Date());
+        warehouseInfo.setStoreareaCount(warehouseInfo.getStoreareaCount() + 1);
+        warehouseInfoMapper.update(warehouseInfo, queryWrapper);
+        storeareaInfoMapper.insert(storeareaInfo);
     }
 
 

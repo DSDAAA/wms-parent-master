@@ -12,7 +12,7 @@ import org.springframework.web.cors.reactive.UrlBasedCorsConfigurationSource;
  * 处理跨域
  * </p>
  *
- * @author qy
+ * @author Dunston
  */
 @Configuration
 public class CorsConfig {

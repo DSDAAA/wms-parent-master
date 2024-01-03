@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 
 /**
- * @author qy
+ * @author Dunston
  */
 //@CrossOrigin //跨域
 @Api(tags = "数据字典管理")

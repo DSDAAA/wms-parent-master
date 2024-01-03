@@ -19,7 +19,7 @@ import javax.annotation.Resource;
 
 /**
  *
- * @author qy
+ * @author Dunston
  *
  */
 @Api(value = "InvLog管理", tags = "InvLog管理")

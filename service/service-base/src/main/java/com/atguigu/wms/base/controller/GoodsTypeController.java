@@ -12,7 +12,7 @@ import java.util.List;
 
 
 /**
- * @author qy
+ * @author Dunston
  */
 @Api(value = "GoodsType管理", tags = "GoodsType管理")
 @RestController

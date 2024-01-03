@@ -13,7 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 /**
- * @author qy
+ * @author Dunston
  */
 //@CrossOrigin //跨域
 @Api(tags = "ShipperInfo管理")

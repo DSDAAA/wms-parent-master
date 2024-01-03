@@ -16,7 +16,7 @@ import javax.annotation.Resource;
 import java.util.List;
 
 /**
- * @author qy
+ * @author Dunston
  */
 @Api(value = "WarehouseInfo管理", tags = "WarehouseInfo管理")
 @RestController

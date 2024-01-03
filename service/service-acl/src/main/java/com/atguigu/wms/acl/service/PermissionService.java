@@ -11,7 +11,7 @@ import java.util.List;
  * 权限服务接口
  * </p>
  *
- * @author qy
+ * @author Dunston
  * @since 2019-11-08
  */
 public interface PermissionService extends IService<Permission> {

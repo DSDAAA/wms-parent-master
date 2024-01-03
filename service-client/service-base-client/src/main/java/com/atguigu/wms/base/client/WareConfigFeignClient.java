@@ -16,7 +16,7 @@ import java.util.List;
 
 /**
  *
- * @author qy
+ * @author Dunston
  *
  */
 @FeignClient(value = "service-base", fallback = WareConfigDegradeFeignClient.class)

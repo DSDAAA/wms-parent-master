@@ -12,7 +12,7 @@ import java.util.List;
 
 /**
  *
- * @author qy
+ * @author Dunston
  *
  */
 @Api(value = "StorehouseInfo管理", tags = "StorehouseInfo管理")

@@ -11,8 +11,5 @@ import java.util.Map;
 
 public interface StoreshelfInfoService extends IService<StoreshelfInfo> {
 
-
-    String getNameById(Long id);
-
-
+    IPage<StoreshelfInfo> getPageList(Page<StoreshelfInfo> retPage, StoreshelfInfoQueryVo storeshelfInfoQueryVo);
 }

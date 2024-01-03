@@ -22,4 +22,6 @@ public interface StoreareaInfoService extends IService<StoreareaInfo> {
     void update(StoreareaInfo storeareaInfo);
 
     void remove(Integer id);
+
+    void saveWarehouse(StoreareaInfo storeareaInfo);
 }

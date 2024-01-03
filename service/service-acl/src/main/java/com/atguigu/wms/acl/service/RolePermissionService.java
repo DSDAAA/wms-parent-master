@@ -8,7 +8,7 @@ import com.baomidou.mybatisplus.extension.service.IService;
  * 角色权限服务接口
  * </p>
  *
- * @author qy
+ * @author Dunston
  * @since 2019-11-08
  */
 public interface RolePermissionService extends IService<RolePermission> {

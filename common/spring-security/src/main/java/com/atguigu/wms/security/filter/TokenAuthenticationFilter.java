@@ -29,7 +29,7 @@ import java.util.List;
  * 访问过滤器
  * </p>
  *
- * @author qy
+ * @author Dunston
  * @since 2019-11-08
  */
 public class TokenAuthenticationFilter extends BasicAuthenticationFilter {

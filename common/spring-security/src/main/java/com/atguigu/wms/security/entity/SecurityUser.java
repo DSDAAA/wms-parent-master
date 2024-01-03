@@ -16,7 +16,7 @@ import java.util.List;
  * 安全认证用户详情信息
  * </p>
  *
- * @author qy
+ * @author Dunston
  * @since 2019-11-08
  */
 @Data

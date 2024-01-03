@@ -14,7 +14,7 @@ import org.springframework.stereotype.Repository;
  * 角色Mpper接口
  * </p>
  *
- * @author qy
+ * @author Dunston
  * @since 2019-11-08
  */
 @Mapper

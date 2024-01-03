@@ -16,7 +16,7 @@ import java.util.List;
  * 会员用户API接口
  * </p>
  *
- * @author qy
+ * @author Dunston
  */
 @FeignClient(value = "service-base", fallback = GoodsInfoDegradeFeignClient.class)
 public interface GoodsInfoFeignClient {

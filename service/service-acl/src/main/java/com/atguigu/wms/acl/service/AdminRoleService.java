@@ -9,7 +9,7 @@ import com.baomidou.mybatisplus.extension.service.IService;
  * 用户角色服务接口
  * </p>
  *
- * @author qy
+ * @author Dunston
  * @since 2019-11-08
  */
 public interface AdminRoleService extends IService<AdminRole> {

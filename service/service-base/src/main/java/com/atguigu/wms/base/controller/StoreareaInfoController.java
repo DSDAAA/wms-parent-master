@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.annotation.Resource;
 
 /**
- * @author qy
+ * @author Dunston
  */
 @Api(value = "StoreareaInfo管理", tags = "StoreareaInfo管理")
 @RestController
@@ -74,10 +74,10 @@ public class StoreareaInfoController {
      */
     @ApiOperation(value = "添加库区")
     @PostMapping("save")
-    public Result save(
+    public Result saveWarehouse(
             @ApiParam(name = "warehouseInfo", value = "库区信息")
             @RequestBody StoreareaInfo storeareaInfo) {
-        storeareaInfoService.save(storeareaInfo);
+        storeareaInfoService.saveWarehouse(storeareaInfo);
         return Result.ok();
     }
 

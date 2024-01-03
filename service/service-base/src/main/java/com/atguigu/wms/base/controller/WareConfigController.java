@@ -11,7 +11,7 @@ import javax.annotation.Resource;
 
 /**
  *
- * @author qy
+ * @author Dunston
  *
  */
 @Api(value = "WaveConfig管理", tags = "WaveConfig管理")

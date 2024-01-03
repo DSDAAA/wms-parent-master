@@ -11,7 +11,7 @@ import java.io.Serializable;
  * 用户实体类
  * </p>
  *
- * @author qy
+ * @author Dunston
  * @since 2019-11-08
  */
 @Data

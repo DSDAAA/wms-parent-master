@@ -27,7 +27,7 @@ import javax.annotation.Resource;
 
 /**
  *
- * @author qy
+ * @author Dunston
  *
  */
 @Api(value = "InventoryInfo管理", tags = "InventoryInfo管理")

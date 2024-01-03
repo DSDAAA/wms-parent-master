@@ -16,7 +16,7 @@ import java.util.Map;
 
 /**
  *
- * @author qy
+ * @author Dunston
  *
  */
 @FeignClient(value = "service-inventory", fallback = InventoryInfoDegradeFeignClient.class)

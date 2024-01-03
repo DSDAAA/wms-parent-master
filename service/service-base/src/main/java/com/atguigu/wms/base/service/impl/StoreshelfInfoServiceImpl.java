@@ -29,19 +29,41 @@ import java.util.Map;
 @Service
 @SuppressWarnings({"unchecked", "rawtypes"})
 public class StoreshelfInfoServiceImpl extends ServiceImpl<StoreshelfInfoMapper, StoreshelfInfo> implements StoreshelfInfoService {
+    @Autowired
+    private StoreshelfInfoMapper storeshelfInfoMapper;
 
-
-
-
-	@Cacheable(value = "storeshelfInfo",keyGenerator = "keyGenerator")
-	@Override
-	public String getNameById(Long id) {
-		if(null == id) return "";
-		StoreshelfInfo storeshelfInfo = this.getById(id);
-		return storeshelfInfo.getName();
-	}
-
-
+    /**
+     * 分页查询货架列表信息
+     * Path：http://192.168.200.1:8100/admin/base/storeshelfInfo/{page}/{limit}
+     * Method：Post
+     *
+     * @param retPage
+     * @param storeshelfInfoQueryVo
+     * @return
+     */
+    @Override
+    public IPage<StoreshelfInfo> getPageList(Page<StoreshelfInfo> retPage, StoreshelfInfoQueryVo storeshelfInfoQueryVo) {
+        String name = storeshelfInfoQueryVo.getName();
+        Long storeareaId = storeshelfInfoQueryVo.getStoreareaId();
+        Long warehouseId = storeshelfInfoQueryVo.getWarehouseId();
+        Long houseTypeId = storeshelfInfoQueryVo.getHouseTypeId();
+        QueryWrapper queryWrapper = new QueryWrapper();
+        if (!StringUtils.isEmpty(name)) {
+            queryWrapper.eq("name", name);
+        }
+        if (storeareaId != 0) {
+            queryWrapper.eq("storearea_id", storeareaId);
+        }
+        if (warehouseId != 0) {
+            queryWrapper.eq("warehouse_id", warehouseId);
+        }
+        if (houseTypeId != 0) {
+            queryWrapper.eq("house_type_id", houseTypeId);
+        }
+        queryWrapper.eq("is_deleted", 0);
+        IPage<StoreshelfInfo> ipage = storeshelfInfoMapper.selectPage(retPage, queryWrapper);
+        return ipage;
+    }
 
 
 }
