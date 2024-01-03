@@ -68,5 +68,49 @@ public class StoreareaInfoServiceImpl extends ServiceImpl<StoreareaInfoMapper, S
         return ipage;
     }
 
+    /**
+     * 根据库区id,查询库区信息
+     * Path：http://192.168.200.1:8100 /admin/base/warehouseInfo/get/{id}
+     * Method：Get
+     *
+     * @param id
+     * @return
+     */
+    @Override
+    public StoreareaInfo get(Integer id) {
+        QueryWrapper queryWrapper = new QueryWrapper();
+        queryWrapper.eq("id", id);
+        StoreareaInfo storeareaInfo = storeareaInfoMapper.selectOne(queryWrapper);
+        return storeareaInfo;
+    }
+
+    /**
+     * 修改库区
+     * Path：http://192.168.200.1:8100/admin/base/storeareaInfo/update
+     * Method：update
+     *
+     * @param storeareaInfo
+     */
+    @Override
+    public void update(StoreareaInfo storeareaInfo) {
+        QueryWrapper queryWrapper = new QueryWrapper();
+        queryWrapper.eq("id", storeareaInfo.getId());
+        storeareaInfoMapper.update(storeareaInfo, queryWrapper);
+    }
+
+    /**
+     * 删除库区
+     * Path：http://192.168.200.1:8100/admin/base/storeareaInfo/remove/{id}
+     * Method：delete
+     *
+     * @param id
+     */
+    @Override
+    public void remove(Integer id) {
+        QueryWrapper queryWrapper = new QueryWrapper();
+        queryWrapper.eq("id", id);
+        storeareaInfoMapper.delete(queryWrapper);
+    }
+
 
 }

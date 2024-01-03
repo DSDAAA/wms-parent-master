@@ -3,6 +3,7 @@ package com.atguigu.wms.base.controller;
 import com.atguigu.wms.base.service.StoreareaInfoService;
 import com.atguigu.wms.common.result.Result;
 import com.atguigu.wms.model.base.GoodsInfo;
+import com.atguigu.wms.model.base.ShipperInfo;
 import com.atguigu.wms.model.base.StoreareaInfo;
 import com.atguigu.wms.model.base.WarehouseInfo;
 import com.atguigu.wms.vo.base.GoodsInfoQueryVo;
@@ -77,6 +78,45 @@ public class StoreareaInfoController {
             @ApiParam(name = "warehouseInfo", value = "库区信息")
             @RequestBody StoreareaInfo storeareaInfo) {
         storeareaInfoService.save(storeareaInfo);
+        return Result.ok();
+    }
+
+    /**
+     * 根据库区id,查询库区信息
+     *
+     * @param id
+     * @return
+     */
+    @ApiOperation(value = "根据库区id,查询库区信息")
+    @GetMapping("get/{id}")
+    public Result get(@PathVariable Integer id) {
+        StoreareaInfo ret = storeareaInfoService.get(id);
+        return Result.ok(ret);
+    }
+
+    /**
+     * 修改库区
+     *
+     * @param storeareaInfo
+     * @return
+     */
+    @ApiOperation(value = "修改库区")
+    @PutMapping("update")
+    public Result update(@RequestBody StoreareaInfo storeareaInfo) {
+        storeareaInfoService.update(storeareaInfo);
+        return Result.ok();
+    }
+
+    /**
+     * 删除库区
+     *
+     * @param id
+     * @return
+     */
+    @ApiOperation(value = "删除库区")
+    @DeleteMapping("remove/{id}")
+    public Result remove(@PathVariable Integer id) {
+        storeareaInfoService.remove(id);
         return Result.ok();
     }
 }
