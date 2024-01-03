@@ -23,4 +23,11 @@ public interface GoodsInfoService extends IService<GoodsInfo> {
 
     IPage<GoodsInfo> getPageList(Page<GoodsInfo> retPage, GoodsInfoQueryVo goodsInfoQueryVo);
 
+    GoodsInfo get(Integer id);
+
+    void update(GoodsInfo goodsInfo);
+
+    void remove(Integer id);
+
+    void updateStatus(Integer id, Integer status);
 }

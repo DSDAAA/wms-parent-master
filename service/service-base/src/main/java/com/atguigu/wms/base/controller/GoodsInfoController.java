@@ -91,11 +91,74 @@ public class GoodsInfoController {
      * @return
      */
     @ApiOperation(value = "新增货品")
-    @GetMapping("save")
+    @PostMapping("save")
     public Result save(
-            @ApiParam(name = "goodsInfo")
+            @ApiParam(name = "goodsInfo", value = "商品信息", required = true)
             @RequestBody GoodsInfo goodsInfo) {
         goodsInfoService.save(goodsInfo);
+        return Result.ok();
+    }
+
+    /**
+     * 根据货品信息id，查询货品
+     *
+     * @param id
+     * @return
+     */
+    @ApiOperation(value = "根据货品信息id，查询货品")
+    @GetMapping("get/{id}")
+    public Result get(
+            @ApiParam(name = "id", value = "商品id", required = true)
+            @PathVariable Integer id) {
+        GoodsInfo goodsInfo = goodsInfoService.get(id);
+        return Result.ok(goodsInfo);
+    }
+
+    /**
+     * 修改货品信息(货主)
+     *
+     * @param goodsInfo
+     * @return
+     */
+    @ApiOperation(value = "修改货品信息")
+    @PutMapping("update")
+    public Result update(
+            @ApiParam(name = "goodsInfo", value = "商品信息", required = true)
+            @RequestBody GoodsInfo goodsInfo) {
+        goodsInfoService.update(goodsInfo);
+        return Result.ok();
+    }
+
+    /**
+     * 删除货品信息
+     *
+     * @param id
+     * @return
+     */
+    @ApiOperation(value = "删除货品信息")
+    @DeleteMapping("remove/{id}")
+    public Result remove(
+            @ApiParam(name = "id", value = "商品id", required = true)
+            @PathVariable Integer id) {
+        goodsInfoService.remove(id);
+        return Result.ok();
+    }
+
+    /**
+     * 启用/下线按钮
+     *
+     * @param id
+     * @param status
+     * @return
+     */
+    @ApiOperation(value = "启用/下线按钮")
+    @GetMapping("updateStatus/{id}/{status}")
+    public Result updateStatus(
+            @ApiParam(name = "id", value = "商品id", required = true)
+            @PathVariable Integer id,
+            @ApiParam(name = "status", value = "状态信息（码）", required = true)
+            @PathVariable Integer status) {
+        goodsInfoService.updateStatus(id, status);
         return Result.ok();
     }
 }

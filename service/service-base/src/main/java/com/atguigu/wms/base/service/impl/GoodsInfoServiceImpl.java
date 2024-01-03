@@ -134,5 +134,71 @@ public class GoodsInfoServiceImpl extends ServiceImpl<GoodsInfoMapper, GoodsInfo
         return ipage;
     }
 
+    /**
+     * 根据货品信息id，查询货品
+     * Path：http://192.168.200.1 /admin/base/goodsInfo/get/{id}
+     * Method：Get
+     *
+     * @param id
+     * @return
+     */
+    @Override
+    public GoodsInfo get(Integer id) {
+        QueryWrapper queryWrapper = new QueryWrapper();
+        queryWrapper.eq("id", id);
+        GoodsInfo goodsInfo = goodsInfoMapper.selectOne(queryWrapper);
+        return goodsInfo;
+    }
+
+    /**
+     * 修改货品信息
+     * Path：http://192.168.200.1/admin/base/goodsInfo /update
+     * Method：Put
+     *
+     * @param goodsInfo
+     */
+    @Override
+    public void update(GoodsInfo goodsInfo) {
+        QueryWrapper queryWrapper = new QueryWrapper();
+        queryWrapper.eq("id", goodsInfo.getId());
+        goodsInfoMapper.update(goodsInfo, queryWrapper);
+    }
+
+    /**
+     * 删除货品信息
+     * Path：http://192.168.200.1/admin/base/goodsInfo/remove/{id}
+     * Method：delete
+     *
+     * @param id
+     */
+    @Override
+    public void remove(Integer id) {
+        QueryWrapper queryWrapper = new QueryWrapper();
+        queryWrapper.eq("id", id);
+        goodsInfoMapper.delete(queryWrapper);
+    }
+
+    /**
+     * 启用/下线按钮
+     * Path：http://192.168.200.1/admin/base/goodsInfo/updateStatus/{id}/{status}
+     * Method：get
+     *
+     * @param id
+     * @param status
+     */
+    @Override
+    public void updateStatus(Integer id, Integer status) {
+        QueryWrapper queryWrapper = new QueryWrapper();
+        queryWrapper.eq("id", id);
+        GoodsInfo goodsInfo = goodsInfoMapper.selectOne(queryWrapper);
+        Integer status1 = goodsInfo.getStatus();
+        if (status1 == 1) {
+            goodsInfo.setStatus(1);
+        } else {
+            goodsInfo.setStatus(-1);
+        }
+        goodsInfoMapper.updateById(goodsInfo);
+    }
+
 
 }
