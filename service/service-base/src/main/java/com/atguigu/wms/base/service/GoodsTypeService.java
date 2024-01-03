@@ -13,4 +13,7 @@ public interface GoodsTypeService extends IService<GoodsType> {
 
     String getNameById(Long id);
 
+    List<GoodsType> findByParentId(Integer parentId);
+
+    List<GoodsType> findNodes();
 }

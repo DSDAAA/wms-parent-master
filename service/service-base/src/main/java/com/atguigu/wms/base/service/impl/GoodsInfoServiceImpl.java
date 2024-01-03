@@ -102,5 +102,37 @@ public class GoodsInfoServiceImpl extends ServiceImpl<GoodsInfoMapper, GoodsInfo
         return list;
     }
 
+    /**
+     * 分页查询货品列表信息
+     * Path：http://192.168.200.1/admin/base/goodsInfo/{page}/{limit}
+     * Method：Get
+     *
+     * @param retPage
+     * @param goodsInfoQueryVo
+     * @return
+     */
+    @Override
+    public IPage<GoodsInfo> getPageList(Page<GoodsInfo> retPage, GoodsInfoQueryVo goodsInfoQueryVo) {
+        Long goodsTypeId = goodsInfoQueryVo.getGoodsTypeId();
+        String keyword = goodsInfoQueryVo.getKeyword();
+        Integer status = goodsInfoQueryVo.getStatus();
+        Long temperatureTypeId = goodsInfoQueryVo.getTemperatureTypeId();
+        QueryWrapper queryWrapper = new QueryWrapper();
+        if (!StringUtils.isEmpty(keyword)) {
+            queryWrapper.like("name", keyword);
+        }
+        if (goodsTypeId != 0) {
+            queryWrapper.eq("goods_type_id", goodsTypeId);
+        }
+        if (status != 0) {
+            queryWrapper.eq("status", status);
+        }
+        if (temperatureTypeId != 0) {
+            queryWrapper.eq("temperature_type_id", temperatureTypeId);
+        }
+        IPage<GoodsInfo> ipage = goodsInfoMapper.selectPage(retPage, queryWrapper);
+        return ipage;
+    }
+
 
 }

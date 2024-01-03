@@ -70,7 +70,7 @@ public class ShipperInfoServiceImpl extends ServiceImpl<ShipperInfoMapper, Shipp
         Long cityId = shipperInfoQueryVo.getCityId();
         Long provinceId = shipperInfoQueryVo.getProvinceId();
         QueryWrapper queryWrapper = new QueryWrapper();
-        if (areaId != null) {
+        if (areaId != 0) {
             queryWrapper.eq("area_id", areaId);
         }
         if (!StringUtils.isEmpty(keyword)) {
@@ -78,10 +78,10 @@ public class ShipperInfoServiceImpl extends ServiceImpl<ShipperInfoMapper, Shipp
             queryWrapper.like("name", keyword);
             queryWrapper.like("phone", keyword);
         }
-        if (cityId != null) {
+        if (cityId != 0) {
             queryWrapper.eq("city_id", cityId);
         }
-        if (provinceId != null) {
+        if (provinceId != 0) {
             queryWrapper.eq("province_id", provinceId);
         }
         IPage<ShipperInfo> iPage = shipperInfoMapper.selectPage(retPage, queryWrapper);

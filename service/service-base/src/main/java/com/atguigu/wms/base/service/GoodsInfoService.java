@@ -1,6 +1,7 @@
 package com.atguigu.wms.base.service;
 
 import com.atguigu.wms.model.base.GoodsInfo;
+import com.atguigu.wms.model.base.ShipperInfo;
 import com.atguigu.wms.vo.base.GoodsInfoQueryVo;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
@@ -19,5 +20,7 @@ public interface GoodsInfoService extends IService<GoodsInfo> {
 
 
     List<String> findGoodsTypeIdList(Long goodsTypeId);
+
+    IPage<GoodsInfo> getPageList(Page<GoodsInfo> retPage, GoodsInfoQueryVo goodsInfoQueryVo);
 
 }

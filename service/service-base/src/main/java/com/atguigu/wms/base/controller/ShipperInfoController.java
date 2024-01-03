@@ -8,6 +8,7 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -32,13 +33,17 @@ public class ShipperInfoController {
      * @return
      */
     @ApiOperation(value = "分页查询货主列表信息")
-    @GetMapping("{page}/{limit}")
-    public Result getPageList(@PathVariable Integer page,
-                              @PathVariable Integer limit,
-                              @RequestParam(required = false) ShipperInfoQueryVo shipperInfoQueryVo) {
-        IPage<ShipperInfo> retPage = new Page<>(page, limit);
-        retPage = shipperInfoService.getPageList(retPage, shipperInfoQueryVo);
-        return Result.ok(retPage);
+    @GetMapping("findPage/{page}/{limit}")
+    public Result getPageList(
+            @ApiParam(name = "page", value = "当前页码", required = true)
+            @PathVariable Long page,
+            @ApiParam(name = "limit", value = "每页记录数", required = true)
+            @PathVariable Long limit,
+            @ApiParam(name = "shipperInfoVo", value = "查询对象", required = false)
+            @RequestBody ShipperInfoQueryVo shipperInfoQueryVo) {
+        Page<ShipperInfo> retPage = new Page<>(page, limit);
+        IPage<ShipperInfo> pageModel = shipperInfoService.getPageList(retPage, shipperInfoQueryVo);
+        return Result.ok(pageModel);
     }
 
     /**

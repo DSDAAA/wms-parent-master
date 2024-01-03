@@ -57,6 +57,7 @@ public class DictController {
         List<Dict> retList = dictService.findByDictCode(dictCode);
         return Result.ok(retList);
     }
+
 //    @ApiOperation(value = "获取数据字典名称")
 //    @GetMapping(value = "/getName/{parentDictCode}/{value}")
 //    public String getName(
