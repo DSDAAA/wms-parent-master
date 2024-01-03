@@ -33,7 +33,7 @@ public class ShipperInfoController {
      * @return
      */
     @ApiOperation(value = "分页查询货主列表信息")
-    @GetMapping("findPage/{page}/{limit}")
+    @PostMapping("findPage/{page}/{limit}")
     public Result getPageList(
             @ApiParam(name = "page", value = "当前页码", required = true)
             @PathVariable Long page,

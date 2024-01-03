@@ -8,14 +8,14 @@ PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
 
 	<resultMap id="goodsSkuRelationMap" type="com.atguigu.wms.model.base.GoodsSkuRelation" autoMapping="true">
 	</resultMap>
-	
+
 	<!-- 用于select查询公用抽取的列 -->
 	<sql id="columns">
 		id,goods_id,sku_id,create_id,create_name,update_id,update_name,create_time,update_time,is_deleted
 	</sql>
-	
+
 	<sql id="findPageWhere">
-		<where>	      				
+		<where>
 	       <if test="vo.id != null and vo.id != ''">
 				and id = #{vo.id}
 			</if>
@@ -55,13 +55,6 @@ PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
 			and is_deleted = 0
 		</where>
 	</sql>
-    
-    <select id="selectPage" resultMap="goodsSkuRelationMap">
-    	select <include refid="columns" />
-	    from goods_sku_relation
-		<include refid="findPageWhere"/>
-		order by id desc
-    </select>
 
 </mapper>
 

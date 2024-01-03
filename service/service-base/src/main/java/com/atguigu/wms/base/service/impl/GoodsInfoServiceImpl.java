@@ -130,6 +130,7 @@ public class GoodsInfoServiceImpl extends ServiceImpl<GoodsInfoMapper, GoodsInfo
         if (temperatureTypeId != 0) {
             queryWrapper.eq("temperature_type_id", temperatureTypeId);
         }
+        queryWrapper.eq("is_deleted",0);
         IPage<GoodsInfo> ipage = goodsInfoMapper.selectPage(retPage, queryWrapper);
         return ipage;
     }

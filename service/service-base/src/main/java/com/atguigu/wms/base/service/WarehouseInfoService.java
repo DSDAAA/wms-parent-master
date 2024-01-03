@@ -30,4 +30,6 @@ public interface WarehouseInfoService extends IService<WarehouseInfo> {
     void update(WarehouseInfo warehouseInfo);
 
     void remove(Integer id);
+
+    List<WarehouseInfo> findAll();
 }

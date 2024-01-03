@@ -28,21 +28,45 @@ import java.util.Map;
 @Service
 @SuppressWarnings({"unchecked", "rawtypes"})
 public class StoreareaInfoServiceImpl extends ServiceImpl<StoreareaInfoMapper, StoreareaInfo> implements StoreareaInfoService {
+    @Autowired
+    private StoreareaInfoMapper storeareaInfoMapper;
 
+    @Cacheable(value = "storeareaInfo", keyGenerator = "keyGenerator")
+    @Override
+    public String getNameById(Long id) {
+        if (null == id) return "";
+        StoreareaInfo storeareaInfo = this.getById(id);
+        return storeareaInfo.getName();
+    }
 
-
-	@Cacheable(value = "storeareaInfo",keyGenerator = "keyGenerator")
-	@Override
-	public String getNameById(Long id) {
-		if(null == id) return "";
-		StoreareaInfo storeareaInfo = this.getById(id);
-		return storeareaInfo.getName();
-	}
-
-
-
-
-
+    /**
+     * 分页查询库区列表信息
+     * Path：http://192.168.200.1:8100/admin/base/storeareaInfo/{page}/{limit}
+     * Method：Get
+     *
+     * @param retPage
+     * @param storeareaInfoQueryVo
+     * @return
+     */
+    @Override
+    public IPage<StoreareaInfo> getPageList(Page<StoreareaInfo> retPage, StoreareaInfoQueryVo storeareaInfoQueryVo) {
+        String name = storeareaInfoQueryVo.getName();
+        Long warehouseId = storeareaInfoQueryVo.getWarehouseId();
+        Long areaTypeId = storeareaInfoQueryVo.getAreaTypeId();
+        QueryWrapper queryWrapper = new QueryWrapper();
+        if (!StringUtils.isEmpty(name)) {
+            queryWrapper.eq("name", name);
+        }
+        if (warehouseId != 0) {
+            queryWrapper.eq("warehouse_id", warehouseId);
+        }
+        if (areaTypeId != 0) {
+            queryWrapper.eq("area_type_id", areaTypeId);
+        }
+        queryWrapper.eq("is_deleted", 0);
+        IPage<StoreareaInfo> ipage = storeareaInfoMapper.selectPage(retPage, queryWrapper);
+        return ipage;
+    }
 
 
 }

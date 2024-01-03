@@ -74,9 +74,7 @@ public class ShipperInfoServiceImpl extends ServiceImpl<ShipperInfoMapper, Shipp
             queryWrapper.eq("area_id", areaId);
         }
         if (!StringUtils.isEmpty(keyword)) {
-            //todo ES检索
             queryWrapper.like("name", keyword);
-            queryWrapper.like("phone", keyword);
         }
         if (cityId != 0) {
             queryWrapper.eq("city_id", cityId);

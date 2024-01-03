@@ -58,10 +58,8 @@ public class GoodsInfoController {
     public Result findPage(
             @ApiParam(name = "page", value = "当前页码", required = true)
             @PathVariable Long page,
-
             @ApiParam(name = "limit", value = "每页记录数", required = true)
             @PathVariable Long limit,
-
             @ApiParam(name = "goodsInfoVo", value = "查询对象", required = false)
             @RequestBody GoodsInfoQueryVo goodsInfoQueryVo) {
         Page<GoodsInfo> retPage = new Page<>(page, limit);

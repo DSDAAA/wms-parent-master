@@ -148,5 +148,17 @@ public class WarehouseInfoController {
         warehouseInfoService.remove(id);
         return Result.ok();
     }
+
+    /**
+     * 查询所有仓库
+     *
+     * @return
+     */
+    @ApiOperation(value = "查询所有仓库")
+    @DeleteMapping("findAll")
+    public Result findAll() {
+        List<WarehouseInfo> list = warehouseInfoService.findAll();
+        return Result.ok(list);
+    }
 }
 

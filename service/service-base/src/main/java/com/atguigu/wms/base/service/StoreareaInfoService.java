@@ -15,8 +15,5 @@ public interface StoreareaInfoService extends IService<StoreareaInfo> {
 
     String getNameById(Long id);
 
-
-
-
-
+    IPage<StoreareaInfo> getPageList(Page<StoreareaInfo> retPage, StoreareaInfoQueryVo storeareaInfoQueryVo);
 }

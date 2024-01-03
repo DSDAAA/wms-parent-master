@@ -212,8 +212,8 @@ public class WarehouseInfoServiceImpl extends ServiceImpl<WarehouseInfoMapper, W
             queryWrapper.eq("province_id", provinceId);
         }
         queryWrapper.eq("is_deleted", 0);
-        Page page = warehouseInfoMapper.selectPage(retPage, queryWrapper);
-        return page;
+        IPage ipage = warehouseInfoMapper.selectPage(retPage, queryWrapper);
+        return ipage;
     }
 
     /**
@@ -258,6 +258,21 @@ public class WarehouseInfoServiceImpl extends ServiceImpl<WarehouseInfoMapper, W
         QueryWrapper queryWrapper = new QueryWrapper();
         queryWrapper.eq("id", id);
         warehouseInfoMapper.delete(queryWrapper);
+    }
+
+    /**
+     * 查询所有仓库
+     * Path：http://192.168.200.1:8100/admin/base/warehouseInfo/findAll
+     * Method：GET
+     *
+     * @return
+     */
+    @Override
+    public List<WarehouseInfo> findAll() {
+        QueryWrapper queryWrapper = new QueryWrapper();
+        queryWrapper.eq("is_deleted", 0);
+        List<WarehouseInfo> list = warehouseInfoMapper.selectList(queryWrapper);
+        return list;
     }
 
     /**
