@@ -117,10 +117,11 @@ public class WarehouseInfoController {
      * @return
      */
     @ApiOperation(value = "查询所有仓库")
-    @DeleteMapping("findAll")
+    @GetMapping("findAll")
     public Result findAll() {
         List<WarehouseInfo> list = warehouseInfoService.findAll();
         return Result.ok(list);
     }
+
 }
 

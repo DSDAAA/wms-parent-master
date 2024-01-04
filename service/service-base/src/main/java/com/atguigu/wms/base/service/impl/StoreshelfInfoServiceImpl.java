@@ -43,22 +43,24 @@ public class StoreshelfInfoServiceImpl extends ServiceImpl<StoreshelfInfoMapper,
      */
     @Override
     public IPage<StoreshelfInfo> getPageList(Page<StoreshelfInfo> retPage, StoreshelfInfoQueryVo storeshelfInfoQueryVo) {
-        String name = storeshelfInfoQueryVo.getName();
-        Long storeareaId = storeshelfInfoQueryVo.getStoreareaId();
-        Long warehouseId = storeshelfInfoQueryVo.getWarehouseId();
-        Long houseTypeId = storeshelfInfoQueryVo.getHouseTypeId();
         QueryWrapper queryWrapper = new QueryWrapper();
-        if (!StringUtils.isEmpty(name)) {
-            queryWrapper.eq("name", name);
-        }
-        if (storeareaId != 0) {
-            queryWrapper.eq("storearea_id", storeareaId);
-        }
-        if (warehouseId != 0) {
-            queryWrapper.eq("warehouse_id", warehouseId);
-        }
-        if (houseTypeId != 0) {
-            queryWrapper.eq("house_type_id", houseTypeId);
+        if (storeshelfInfoQueryVo != null) {
+            String name = storeshelfInfoQueryVo.getName();
+            Long storeareaId = storeshelfInfoQueryVo.getStoreareaId();
+            Long warehouseId = storeshelfInfoQueryVo.getWarehouseId();
+            Long houseTypeId = storeshelfInfoQueryVo.getHouseTypeId();
+            if (!StringUtils.isEmpty(name)) {
+                queryWrapper.eq("name", name);
+            }
+            if (storeareaId != 0) {
+                queryWrapper.eq("storearea_id", storeareaId);
+            }
+            if (warehouseId != 0) {
+                queryWrapper.eq("warehouse_id", warehouseId);
+            }
+            if (houseTypeId != 0) {
+                queryWrapper.eq("house_type_id", houseTypeId);
+            }
         }
         queryWrapper.eq("is_deleted", 0);
         IPage<StoreshelfInfo> ipage = storeshelfInfoMapper.selectPage(retPage, queryWrapper);

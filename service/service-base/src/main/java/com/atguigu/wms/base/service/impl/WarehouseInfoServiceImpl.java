@@ -186,30 +186,32 @@ public class WarehouseInfoServiceImpl extends ServiceImpl<WarehouseInfoMapper, W
      */
     @Override
     public IPage<WarehouseInfo> getPageList(Page<WarehouseInfo> retPage, WarehouseInfoQueryVo warehouseInfoQueryVo) {
-        Long id = warehouseInfoQueryVo.getId();
-        Boolean type = warehouseInfoQueryVo.getType();
-        String name = warehouseInfoQueryVo.getName();
-        Long cityId = warehouseInfoQueryVo.getCityId();
-        Long areaId = warehouseInfoQueryVo.getAreaId();
-        Long provinceId = warehouseInfoQueryVo.getProvinceId();
         QueryWrapper queryWrapper = new QueryWrapper();
-        if (id != 0) {
-            queryWrapper.eq("id", id);
-        }
-        if (type != null) {
-            queryWrapper.eq("type", type);
-        }
-        if (!StringUtils.isEmpty(name)) {
-            queryWrapper.eq("name", name);
-        }
-        if (cityId != 0) {
-            queryWrapper.eq("city_id", cityId);
-        }
-        if (areaId != 0) {
-            queryWrapper.eq("area_id", areaId);
-        }
-        if (provinceId != 0) {
-            queryWrapper.eq("province_id", provinceId);
+        if (warehouseInfoQueryVo != null) {
+            Long id = warehouseInfoQueryVo.getId();
+            Boolean type = warehouseInfoQueryVo.getType();
+            String name = warehouseInfoQueryVo.getName();
+            Long cityId = warehouseInfoQueryVo.getCityId();
+            Long areaId = warehouseInfoQueryVo.getAreaId();
+            Long provinceId = warehouseInfoQueryVo.getProvinceId();
+            if (id != 0) {
+                queryWrapper.eq("id", id);
+            }
+            if (type != null) {
+                queryWrapper.eq("type", type);
+            }
+            if (!StringUtils.isEmpty(name)) {
+                queryWrapper.eq("name", name);
+            }
+            if (cityId != 0) {
+                queryWrapper.eq("city_id", cityId);
+            }
+            if (areaId != 0) {
+                queryWrapper.eq("area_id", areaId);
+            }
+            if (provinceId != 0) {
+                queryWrapper.eq("province_id", provinceId);
+            }
         }
         queryWrapper.eq("is_deleted", 0);
         IPage ipage = warehouseInfoMapper.selectPage(retPage, queryWrapper);

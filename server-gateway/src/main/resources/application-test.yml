@@ -10,7 +10,7 @@ spring:
   cloud:
 #    nacos:
 #      discovery:
-#        server-addr: 139.198.127.41:8848
+#        server-addr: 192.168.76.100:8848
 #        namespace: ada979f6-9477-4867-be38-2a5ce4142346
     gateway:
       discovery:      #是否与服务发现组件进行结合，通过 serviceId(必须设置成大写) 转发到具体的服务实例。默认为false，设为true便开启通过服务中心的自动根据 serviceId 创建路由的功能。

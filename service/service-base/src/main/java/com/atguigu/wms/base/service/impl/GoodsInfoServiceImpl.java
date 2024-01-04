@@ -108,25 +108,27 @@ public class GoodsInfoServiceImpl extends ServiceImpl<GoodsInfoMapper, GoodsInfo
      */
     @Override
     public IPage<GoodsInfo> getPageList(Page<GoodsInfo> retPage, GoodsInfoQueryVo goodsInfoQueryVo) {
-        Long goodsTypeId = goodsInfoQueryVo.getGoodsTypeId();
-        String keyword = goodsInfoQueryVo.getKeyword();
-        Integer status = goodsInfoQueryVo.getStatus();
-        Long temperatureTypeId = goodsInfoQueryVo.getTemperatureTypeId();
         QueryWrapper queryWrapper = new QueryWrapper();
-        if (!StringUtils.isEmpty(keyword)) {
-            queryWrapper.like("name", keyword);
-            //todo 后续加
+        if (goodsInfoQueryVo != null) {
+            Long goodsTypeId = goodsInfoQueryVo.getGoodsTypeId();
+            String keyword = goodsInfoQueryVo.getKeyword();
+            Integer status = goodsInfoQueryVo.getStatus();
+            Long temperatureTypeId = goodsInfoQueryVo.getTemperatureTypeId();
+            if (!StringUtils.isEmpty(keyword)) {
+                queryWrapper.like("name", keyword);
+                //todo 后续加
+            }
+            if (goodsTypeId != 0) {
+                queryWrapper.eq("goods_type_id", goodsTypeId);
+            }
+            if (status != 0) {
+                queryWrapper.eq("status", status);
+            }
+            if (temperatureTypeId != 0) {
+                queryWrapper.eq("temperature_type_id", temperatureTypeId);
+            }
         }
-        if (goodsTypeId != 0) {
-            queryWrapper.eq("goods_type_id", goodsTypeId);
-        }
-        if (status != 0) {
-            queryWrapper.eq("status", status);
-        }
-        if (temperatureTypeId != 0) {
-            queryWrapper.eq("temperature_type_id", temperatureTypeId);
-        }
-        queryWrapper.eq("is_deleted",0);
+        queryWrapper.eq("is_deleted", 0);
         IPage<GoodsInfo> ipage = goodsInfoMapper.selectPage(retPage, queryWrapper);
         return ipage;
     }

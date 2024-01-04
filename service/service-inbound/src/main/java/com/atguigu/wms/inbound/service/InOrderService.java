@@ -12,12 +12,4 @@ import java.util.Map;
 public interface InOrderService extends IService<InOrder> {
 
     IPage<InOrder> selectPage(Page<InOrder> pageParam, InOrderQueryVo inOrderQueryVo);
-
-    Map<String, Object> show(Long id);
-
-    InOrder getByInOrderNo(String inOrderNo);
-
-    void saveInOrder(InOrder inOrder);
-
-    void updateInOrder(InOrder inOrder);
 }

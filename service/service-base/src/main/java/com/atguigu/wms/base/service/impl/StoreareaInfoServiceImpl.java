@@ -50,18 +50,20 @@ public class StoreareaInfoServiceImpl extends ServiceImpl<StoreareaInfoMapper, S
      */
     @Override
     public IPage<StoreareaInfo> getPageList(Page<StoreareaInfo> retPage, StoreareaInfoQueryVo storeareaInfoQueryVo) {
-        String name = storeareaInfoQueryVo.getName();
-        Long warehouseId = storeareaInfoQueryVo.getWarehouseId();
-        Long areaTypeId = storeareaInfoQueryVo.getAreaTypeId();
         QueryWrapper queryWrapper = new QueryWrapper();
-        if (!StringUtils.isEmpty(name)) {
-            queryWrapper.eq("name", name);
-        }
-        if (warehouseId != 0) {
-            queryWrapper.eq("warehouse_id", warehouseId);
-        }
-        if (areaTypeId != 0) {
-            queryWrapper.eq("area_type_id", areaTypeId);
+        if (storeareaInfoQueryVo != null) {
+            String name = storeareaInfoQueryVo.getName();
+            Long warehouseId = storeareaInfoQueryVo.getWarehouseId();
+            Long areaTypeId = storeareaInfoQueryVo.getAreaTypeId();
+            if (!StringUtils.isEmpty(name)) {
+                queryWrapper.eq("name", name);
+            }
+            if (warehouseId != 0) {
+                queryWrapper.eq("warehouse_id", warehouseId);
+            }
+            if (areaTypeId != 0) {
+                queryWrapper.eq("area_type_id", areaTypeId);
+            }
         }
         queryWrapper.eq("is_deleted", 0);
         IPage<StoreareaInfo> ipage = storeareaInfoMapper.selectPage(retPage, queryWrapper);

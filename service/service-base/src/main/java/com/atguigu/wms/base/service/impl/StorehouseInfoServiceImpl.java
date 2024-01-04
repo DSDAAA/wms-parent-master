@@ -41,22 +41,24 @@ public class StorehouseInfoServiceImpl extends ServiceImpl<StorehouseInfoMapper,
      */
     @Override
     public IPage<StorehouseInfo> getPageList(Page<StorehouseInfo> retPage, StorehouseInfoQueryVo storehouseInfoQueryVo) {
-        String name = storehouseInfoQueryVo.getName();
-        Long storeshelfId = storehouseInfoQueryVo.getStoreshelfId();
-        Long storeareaId = storehouseInfoQueryVo.getStoreareaId();
-        Long warehouseId = storehouseInfoQueryVo.getWarehouseId();
         QueryWrapper queryWrapper = new QueryWrapper();
-        if (!StringUtils.isEmpty(name)) {
-            queryWrapper.eq("name", name);
-        }
-        if (storeareaId != 0) {
-            queryWrapper.eq("storearea_id", storeareaId);
-        }
-        if (storeareaId != 0) {
-            queryWrapper.eq("storeshelf_id", storeshelfId);
-        }
-        if (warehouseId != 0) {
-            queryWrapper.eq("warehouse_id", warehouseId);
+        if (storehouseInfoQueryVo != null) {
+            String name = storehouseInfoQueryVo.getName();
+            Long storeshelfId = storehouseInfoQueryVo.getStoreshelfId();
+            Long storeareaId = storehouseInfoQueryVo.getStoreareaId();
+            Long warehouseId = storehouseInfoQueryVo.getWarehouseId();
+            if (!StringUtils.isEmpty(name)) {
+                queryWrapper.eq("name", name);
+            }
+            if (storeareaId != 0) {
+                queryWrapper.eq("storearea_id", storeareaId);
+            }
+            if (storeareaId != 0) {
+                queryWrapper.eq("storeshelf_id", storeshelfId);
+            }
+            if (warehouseId != 0) {
+                queryWrapper.eq("warehouse_id", warehouseId);
+            }
         }
         queryWrapper.eq("is_deleted", 0);
         IPage<StorehouseInfo> ipage = storehouseInfoMapper.selectPage(retPage, queryWrapper);

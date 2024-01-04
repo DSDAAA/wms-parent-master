@@ -55,7 +55,7 @@ public class GoodsInfoController {
      */
     @ApiOperation(value = "获取分页列表")
     @GetMapping("{page}/{limit}")
-    public Result findPage(
+    public Result getPageList(
             @ApiParam(name = "page", value = "当前页码", required = true)
             @PathVariable Long page,
             @ApiParam(name = "limit", value = "每页记录数", required = true)

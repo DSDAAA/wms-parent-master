@@ -11,11 +11,4 @@ import java.util.List;
 
 public interface InApproveTaskService extends IService<InApproveTask> {
 
-    IPage<InApproveTask> selectPage(Page<InApproveTask> pageParam, InApproveTaskQueryVo inApproveTaskQueryVo);
-
-    void submitApprove(Long inOrderId);
-
-    void approve(InApproveFormVo inApproveFromVo);
-
-    List<InApproveTask> findByInOrderid(Long inOrderId);
 }

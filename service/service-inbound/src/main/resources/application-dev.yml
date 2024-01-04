@@ -24,18 +24,13 @@ spring:
 #  cloud:
 #    sentinel:
 #      transport:
-#        dashboard: http://139.198.127.41:8858
-  rabbitmq:
-    host: 39.99.129.91
-    port: 5672
-    username: admin
-    password: admin
+#        dashboard: http://192.168.76.100:8858
   redis:
-    host: 39.99.129.91
-    port: 6379
+    host: 192.168.76.100
+    port: 6389
     database: 0
     timeout: 1800000
-    password: hzk123456
+    password:
     lettuce:
       pool:
         max-active: 20 #最大连接数
@@ -45,9 +40,9 @@ spring:
   datasource:
     type: com.zaxxer.hikari.HikariDataSource
     driver-class-name: com.mysql.jdbc.Driver
-    url: jdbc:mysql://39.99.129.91:3306/wms_inbound?characterEncoding=utf-8&useSSL=false
+    url: jdbc:mysql://192.168.76.100:3316/wms_inbound?characterEncoding=utf-8&useSSL=false
     username: root
-    password: root
+    password: 123
     hikari:
       connection-test-query: SELECT 1
       connection-timeout: 60000
