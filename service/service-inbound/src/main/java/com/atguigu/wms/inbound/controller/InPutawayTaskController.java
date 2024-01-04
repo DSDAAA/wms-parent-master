@@ -28,21 +28,21 @@ import javax.annotation.Resource;
 @RequestMapping(value="/admin/inbound/inPutawayTask")
 @SuppressWarnings({"unchecked", "rawtypes"})
 public class InPutawayTaskController {
-	
+
 	@Resource
 	private InPutawayTaskService inPutawayTaskService;
 
 	@ApiOperation(value = "获取分页列表")
 	@GetMapping("{page}/{limit}")
 	public Result index(
-		@ApiParam(name = "page", value = "当前页码", required = true)
-		@PathVariable Long page,
-	
-		@ApiParam(name = "limit", value = "每页记录数", required = true)
-		@PathVariable Long limit,
-	
-		@ApiParam(name = "inPutawayTaskVo", value = "查询对象", required = false)
-		InPutawayTaskQueryVo inPutawayTaskQueryVo) {
+			@ApiParam(name = "page", value = "当前页码", required = true)
+			@PathVariable Long page,
+
+			@ApiParam(name = "limit", value = "每页记录数", required = true)
+			@PathVariable Long limit,
+
+			@ApiParam(name = "inPutawayTaskVo", value = "查询对象", required = false)
+			InPutawayTaskQueryVo inPutawayTaskQueryVo) {
 		if(null != AuthContextHolder.getWarehouseId()) {
 			inPutawayTaskQueryVo.setWarehouseId(AuthContextHolder.getWarehouseId());
 		}
@@ -72,4 +72,3 @@ public class InPutawayTaskController {
 		return Result.ok();
 	}
 }
-

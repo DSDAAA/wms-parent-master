@@ -12,6 +12,8 @@ import io.swagger.annotations.ApiParam;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 /**
  * @author Dunston
  */
@@ -96,6 +98,19 @@ public class ShipperInfoController {
     public Result remove(@PathVariable Integer id) {
         shipperInfoService.remove(id);
         return Result.ok();
+    }
+
+    /**
+     * 搜索货主名称
+     *
+     * @param keyword
+     * @return
+     */
+    @ApiOperation(value = "搜索货主名称")
+    @GetMapping("findByKeyword/{keyword}")
+    public Result findByKeyword(@PathVariable String keyword) {
+        List<ShipperInfo> list = shipperInfoService.findByKeyword(keyword);
+        return Result.ok(list);
     }
 }
 

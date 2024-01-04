@@ -3,6 +3,7 @@ package com.atguigu.wms.base.controller;
 import com.atguigu.wms.base.service.GoodsInfoService;
 import com.atguigu.wms.common.result.Result;
 import com.atguigu.wms.model.base.GoodsInfo;
+import com.atguigu.wms.model.base.ShipperInfo;
 import com.atguigu.wms.vo.base.GoodsInfoQueryVo;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
@@ -25,13 +26,6 @@ public class GoodsInfoController {
 
     @Resource
     private GoodsInfoService goodsInfoService;
-
-
-    @ApiOperation(value = "根据关键字查看")
-    @GetMapping("findByKeyword/{keyword}")
-    public Result findByKeyword(@PathVariable String keyword) {
-        return Result.ok(goodsInfoService.findByKeyword(keyword));
-    }
 
     @ApiOperation(value = "根据第三级分类id获取货品三级分类id列表")
     @GetMapping("findGoodsTypeIdList/{goodsTypeId}")
@@ -156,6 +150,19 @@ public class GoodsInfoController {
             @PathVariable Integer status) {
         goodsInfoService.updateStatus(id, status);
         return Result.ok();
+    }
+
+    /**
+     * 搜索货品名称
+     *
+     * @param keyword
+     * @return
+     */
+    @ApiOperation(value = "搜索货品名称")
+    @GetMapping("findByKeyword/{keyword}")
+    public Result findByKeyword(@PathVariable String keyword) {
+        List<GoodsInfo> list = goodsInfoService.findByKeyword(keyword);
+        return Result.ok(list);
     }
 }
 

@@ -29,5 +29,38 @@ public class InApproveTaskController {
 
 	@Resource
 	private InApproveTaskService inApproveTaskService;
+
+	@ApiOperation(value = "获取分页列表")
+	@GetMapping("{page}/{limit}")
+	public Result index(
+			@ApiParam(name = "page", value = "当前页码", required = true)
+			@PathVariable Long page,
+
+			@ApiParam(name = "limit", value = "每页记录数", required = true)
+			@PathVariable Long limit,
+
+			@ApiParam(name = "inApproveTaskVo", value = "查询对象", required = false)
+			InApproveTaskQueryVo inApproveTaskQueryVo) {
+		if(null != AuthContextHolder.getWarehouseId()) {
+			inApproveTaskQueryVo.setWarehouseId(AuthContextHolder.getWarehouseId());
+		}
+		Page<InApproveTask> pageParam = new Page<>(page, limit);
+		IPage<InApproveTask> pageModel = inApproveTaskService.selectPage(pageParam, inApproveTaskQueryVo);
+		return Result.ok(pageModel);
+	}
+
+	@ApiOperation(value = "提交审批")
+	@GetMapping("submitApprove/{inOrderId}")
+	public Result submitApprove(@PathVariable Long inOrderId) {
+		inApproveTaskService.submitApprove(inOrderId);
+		return Result.ok();
+	}
+
+	@ApiOperation(value = "审批")
+	@PostMapping("approve")
+	public Result approve(@RequestBody InApproveFormVo inApproveFromVo) {
+		inApproveTaskService.approve(inApproveFromVo);
+		return Result.ok();
+	}
 }
 

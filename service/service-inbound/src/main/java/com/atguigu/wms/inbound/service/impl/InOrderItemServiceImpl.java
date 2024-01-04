@@ -27,35 +27,35 @@ import java.util.Map;
 @SuppressWarnings({"unchecked", "rawtypes"})
 public class InOrderItemServiceImpl extends ServiceImpl<InOrderItemMapper, InOrderItem> implements InOrderItemService {
 
-	@Resource
-	private InOrderItemMapper inOrderItemMapper;
+    @Resource
+    private InOrderItemMapper inOrderItemMapper;
 
-	@Autowired
-	private GoodsInfoFeignClient goodsInfoFeignClient;
+    @Autowired
+    private GoodsInfoFeignClient goodsInfoFeignClient;
 
-	@Resource
-	private DictFeignClient dictFeignClient;
+    @Resource
+    private DictFeignClient dictFeignClient;
 
-	@Override
-	public IPage<InOrderItem> selectPage(Page<InOrderItem> pageParam, InOrderItemQueryVo inOrderItemQueryVo) {
+    @Override
+    public IPage<InOrderItem> selectPage(Page<InOrderItem> pageParam, InOrderItemQueryVo inOrderItemQueryVo) {
 
-		return inOrderItemMapper.selectPage(pageParam, inOrderItemQueryVo);
-	}
+        return inOrderItemMapper.selectPage(pageParam, inOrderItemQueryVo);
+    }
 
     @Override
     public List<InOrderItem> findByInOrderId(Long inOrderId) {
-		List<InOrderItem> list = this.list(new LambdaQueryWrapper<InOrderItem>().eq(InOrderItem::getInOrderId, inOrderId));
-		list.forEach(item -> {
-			this.packageInOrderItem(item);
-		});
-		return list;
+        List<InOrderItem> list = this.list(new LambdaQueryWrapper<InOrderItem>().eq(InOrderItem::getInOrderId, inOrderId));
+        list.forEach(item -> {
+            this.packageInOrderItem(item);
+        });
+        return list;
     }
 
-	private InOrderItem packageInOrderItem(InOrderItem item) {
-		item.setGoodsInfo(goodsInfoFeignClient.getGoodsInfo(item.getGoodsId()));
-		item.setUnitName(dictFeignClient.getNameById(item.getUnitId()));
-		item.setBaseUnitName(dictFeignClient.getNameById(item.getBaseUnitId()));
-		return item;
-	}
+    private InOrderItem packageInOrderItem(InOrderItem item) {
+        item.setGoodsInfo(goodsInfoFeignClient.getGoodsInfo(item.getGoodsId()));
+        item.setUnitName(dictFeignClient.getNameById(item.getUnitId()));
+        item.setBaseUnitName(dictFeignClient.getNameById(item.getBaseUnitId()));
+        return item;
+    }
 
 }

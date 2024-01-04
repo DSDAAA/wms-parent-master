@@ -32,87 +32,87 @@ import java.util.stream.Collectors;
 @SuppressWarnings({"unchecked", "rawtypes"})
 public class InReceivingTaskServiceImpl extends ServiceImpl<InReceivingTaskMapper, InReceivingTask> implements InReceivingTaskService {
 
-	@Resource
-	private InReceivingTaskMapper inReceivingTaskMapper;
+    @Resource
+    private InReceivingTaskMapper inReceivingTaskMapper;
 
-	@Resource
-	private InOrderService inOrderService;
+    @Resource
+    private InOrderService inOrderService;
 
-	@Resource
-	private InOrderItemService inOrderItemService;
+    @Resource
+    private InOrderItemService inOrderItemService;
 
-	@Resource
-	private InPutawayTaskService inPutawayTaskService;
+    @Resource
+    private InPutawayTaskService inPutawayTaskService;
 
-	@Override
-	public IPage<InReceivingTask> selectPage(Page<InReceivingTask> pageParam, InReceivingTaskQueryVo inReceivingTaskQueryVo) {
-		IPage<InReceivingTask> page = inReceivingTaskMapper.selectPage(pageParam, inReceivingTaskQueryVo);
-		page.getRecords().forEach(item -> {
-			item.setStatusName(item.getStatus().getComment());
-		});
-		return page;
-	}
+    @Override
+    public IPage<InReceivingTask> selectPage(Page<InReceivingTask> pageParam, InReceivingTaskQueryVo inReceivingTaskQueryVo) {
+        IPage<InReceivingTask> page = inReceivingTaskMapper.selectPage(pageParam, inReceivingTaskQueryVo);
+        page.getRecords().forEach(item -> {
+            item.setStatusName(item.getStatus().getComment());
+        });
+        return page;
+    }
 
-	@Transactional(rollbackFor = {Exception.class})
-	@Override
-	public void receiving(InReceivingFormVo inReceivingFormVo) {
-		if(inReceivingFormVo.getStatus() == 1) {
-			InReceivingTask inReceivingTask = this.getById(inReceivingFormVo.getId());
-			inReceivingTask.setStatus(InTaskStatus.FINISH);
-			inReceivingTask.setRemarks(inReceivingFormVo.getRemarks());
-			inReceivingTask.setReceivingTime(new Date());
-			inReceivingTask.setReceivingUserId(AuthContextHolder.getUserId());
-			inReceivingTask.setReceivingUser(AuthContextHolder.getUserName());
-			this.updateById(inReceivingTask);
+    @Transactional(rollbackFor = {Exception.class})
+    @Override
+    public void receiving(InReceivingFormVo inReceivingFormVo) {
+        if (inReceivingFormVo.getStatus() == 1) {
+            InReceivingTask inReceivingTask = this.getById(inReceivingFormVo.getId());
+            inReceivingTask.setStatus(InTaskStatus.FINISH);
+            inReceivingTask.setRemarks(inReceivingFormVo.getRemarks());
+            inReceivingTask.setReceivingTime(new Date());
+            inReceivingTask.setReceivingUserId(AuthContextHolder.getUserId());
+            inReceivingTask.setReceivingUser(AuthContextHolder.getUserName());
+            this.updateById(inReceivingTask);
 
-			InOrder inOrder = inOrderService.getById(inReceivingTask.getInOrderId());
-			inOrder.setStatus(InOrderStatus.PUTAWAY_RUN);
-			inOrderService.updateById(inOrder);
+            InOrder inOrder = inOrderService.getById(inReceivingTask.getInOrderId());
+            inOrder.setStatus(InOrderStatus.PUTAWAY_RUN);
+            inOrderService.updateById(inOrder);
 
-			int totalActualCount = 0;
-			Map<Long, InReceivingItemVo> goodsIdToInReceivingItemVoMap = inReceivingFormVo.getInReceivingItemVoList().stream().collect(Collectors.toMap(InReceivingItemVo::getGoodsId, InReceivingItemVo -> InReceivingItemVo));
-			List<InOrderItem> inOrderItemList = inOrder.getInOrderItemList();
-			for(InOrderItem inOrderItem : inOrderItemList) {
-				InReceivingItemVo inReceivingItemVo = goodsIdToInReceivingItemVoMap.get(inOrderItem.getGoodsId());
-				inOrderItem.setActualCount(inReceivingItemVo.getActualCount());
-				inOrderItemService.updateById(inOrderItem);
+            int totalActualCount = 0;
+            Map<Long, InReceivingItemVo> goodsIdToInReceivingItemVoMap = inReceivingFormVo.getInReceivingItemVoList().stream().collect(Collectors.toMap(InReceivingItemVo::getGoodsId, InReceivingItemVo -> InReceivingItemVo));
+            List<InOrderItem> inOrderItemList = inOrder.getInOrderItemList();
+            for (InOrderItem inOrderItem : inOrderItemList) {
+                InReceivingItemVo inReceivingItemVo = goodsIdToInReceivingItemVoMap.get(inOrderItem.getGoodsId());
+                inOrderItem.setActualCount(inReceivingItemVo.getActualCount());
+                inOrderItemService.updateById(inOrderItem);
 
-				totalActualCount += inReceivingItemVo.getActualCount();
-			}
-			//更新实际到货数量
-			inReceivingTask.setActualCount(totalActualCount);
-			this.updateById(inReceivingTask);
+                totalActualCount += inReceivingItemVo.getActualCount();
+            }
+            //更新实际到货数量
+            inReceivingTask.setActualCount(totalActualCount);
+            this.updateById(inReceivingTask);
 
-			InPutawayTask inPutawayTask = new InPutawayTask();
-			inPutawayTask.setTaskNo(NoUtils.getOrderNo());
-			inPutawayTask.setInOrderId(inOrder.getId());
-			inPutawayTask.setInOrderNo(inOrder.getInOrderNo());
-			inPutawayTask.setShipperOrderNo(inOrder.getShipperOrderNo());
-			inPutawayTask.setShipperId(inOrder.getShipperId());
-			inPutawayTask.setShipperName(inOrder.getShipperName());
-			inPutawayTask.setWarehouseId(inOrder.getWarehouseId());
-			inPutawayTask.setExpectCount(inOrder.getExpectCount());
-			inPutawayTask.setActualCount(inReceivingTask.getActualCount());
-			inPutawayTask.setStatus(InPutawayTaskStatus.PENDING_APPROVEL);
-			inPutawayTaskService.save(inPutawayTask);
-		} else {
-			InReceivingTask inReceivingTask = this.getById(inReceivingFormVo.getId());
-			inReceivingTask.setStatus(InTaskStatus.REJECT);
-			inReceivingTask.setRemarks(inReceivingFormVo.getRemarks());
-			inReceivingTask.setReceivingTime(new Date());
-			inReceivingTask.setReceivingUserId(AuthContextHolder.getUserId());
-			inReceivingTask.setReceivingUser(AuthContextHolder.getUserName());
-			this.updateById(inReceivingTask);
+            InPutawayTask inPutawayTask = new InPutawayTask();
+            inPutawayTask.setTaskNo(NoUtils.getOrderNo());
+            inPutawayTask.setInOrderId(inOrder.getId());
+            inPutawayTask.setInOrderNo(inOrder.getInOrderNo());
+            inPutawayTask.setShipperOrderNo(inOrder.getShipperOrderNo());
+            inPutawayTask.setShipperId(inOrder.getShipperId());
+            inPutawayTask.setShipperName(inOrder.getShipperName());
+            inPutawayTask.setWarehouseId(inOrder.getWarehouseId());
+            inPutawayTask.setExpectCount(inOrder.getExpectCount());
+            inPutawayTask.setActualCount(inReceivingTask.getActualCount());
+            inPutawayTask.setStatus(InPutawayTaskStatus.PENDING_APPROVEL);
+            inPutawayTaskService.save(inPutawayTask);
+        } else {
+            InReceivingTask inReceivingTask = this.getById(inReceivingFormVo.getId());
+            inReceivingTask.setStatus(InTaskStatus.REJECT);
+            inReceivingTask.setRemarks(inReceivingFormVo.getRemarks());
+            inReceivingTask.setReceivingTime(new Date());
+            inReceivingTask.setReceivingUserId(AuthContextHolder.getUserId());
+            inReceivingTask.setReceivingUser(AuthContextHolder.getUserName());
+            this.updateById(inReceivingTask);
 
-			InOrder inOrder = inOrderService.getById(inReceivingTask.getInOrderId());
-			inOrder.setStatus(InOrderStatus.REJECT);
-			inOrderService.updateById(inOrder);
-		}
-	}
+            InOrder inOrder = inOrderService.getById(inReceivingTask.getInOrderId());
+            inOrder.setStatus(InOrderStatus.REJECT);
+            inOrderService.updateById(inOrder);
+        }
+    }
 
-	@Override
-	public List<InReceivingTask> findByInOrderid(Long inOrderId) {
-		return this.list(new LambdaQueryWrapper<InReceivingTask>().eq(InReceivingTask::getInOrderId, inOrderId));
-	}
+    @Override
+    public List<InReceivingTask> findByInOrderid(Long inOrderId) {
+        return this.list(new LambdaQueryWrapper<InReceivingTask>().eq(InReceivingTask::getInOrderId, inOrderId));
+    }
 
 }

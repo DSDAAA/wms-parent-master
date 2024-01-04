@@ -47,14 +47,20 @@ public class GoodsInfoServiceImpl extends ServiceImpl<GoodsInfoMapper, GoodsInfo
         return item;
     }
 
+    /**
+     *搜索货品名称
+     *
+     * @param keyword
+     * @return
+     */
     @Override
     public List<GoodsInfo> findByKeyword(String keyword) {
-        LambdaQueryWrapper<GoodsInfo> queryWrapper = new LambdaQueryWrapper();
-        queryWrapper.like(GoodsInfo::getName, keyword);
-        List<GoodsInfo> list = this.list(queryWrapper);
-        list.forEach(item -> {
-            this.packageGoodsInfo(item);
-        });
+        QueryWrapper queryWrapper = new QueryWrapper();
+        if (!StringUtils.isEmpty(keyword)) {
+            queryWrapper.like("name", keyword);
+        }
+        queryWrapper.eq("is_deleted", 0);
+        List<GoodsInfo> list = goodsInfoMapper.selectList(queryWrapper);
         return list;
     }
 

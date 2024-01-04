@@ -39,7 +39,7 @@ spring:
         min-idle: 0     #最小空闲
   datasource:
     type: com.zaxxer.hikari.HikariDataSource
-    driver-class-name: com.mysql.jdbc.Driver
+    driver-class-name: com.mysql.cj.jdbc.Driver
     url: jdbc:mysql://192.168.76.100:3316/wms_inbound?characterEncoding=utf-8&useSSL=false
     username: root
     password: 123

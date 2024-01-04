@@ -13,6 +13,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
+import java.util.List;
+
 @Service
 public class ShipperInfoServiceImpl extends ServiceImpl<ShipperInfoMapper, ShipperInfo> implements ShipperInfoService {
     @Autowired
@@ -87,6 +89,23 @@ public class ShipperInfoServiceImpl extends ServiceImpl<ShipperInfoMapper, Shipp
         queryWrapper.eq("is_deleted", 0);
         IPage<ShipperInfo> iPage = shipperInfoMapper.selectPage(retPage, queryWrapper);
         return iPage;
+    }
+
+    /**
+     * 搜索货主名称
+     *
+     * @param keyword
+     * @return
+     */
+    @Override
+    public List<ShipperInfo> findByKeyword(String keyword) {
+        QueryWrapper queryWrapper = new QueryWrapper();
+        if (!StringUtils.isEmpty(keyword)) {
+            queryWrapper.like("name", keyword);
+        }
+        queryWrapper.eq("is_deleted", 0);
+        List<ShipperInfo> list = shipperInfoMapper.selectList(queryWrapper);
+        return list;
     }
 
 }

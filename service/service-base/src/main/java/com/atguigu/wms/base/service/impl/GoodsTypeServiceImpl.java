@@ -71,8 +71,13 @@ public class GoodsTypeServiceImpl extends ServiceImpl<GoodsTypeMapper, GoodsType
                 QueryWrapper queryWrapper3 = new QueryWrapper();
                 queryWrapper3.eq("parent_id", id2);
                 List<GoodsType> list3 = goodsTypeMapper.selectList(queryWrapper3);
+                for (GoodsType goodsType3 : list3) {
+                    goodsType3.setValue(goodsType3.getName());
+                }
+                goodsType2.setValue(goodsType2.getName());
                 goodsType2.setChildren(list3);
             }
+            goodsType1.setValue(goodsType1.getName());
             goodsType1.setChildren(list2);
         }
         return list1;

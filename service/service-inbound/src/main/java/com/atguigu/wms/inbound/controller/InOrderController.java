@@ -21,11 +21,13 @@ import java.util.List;
 import javax.annotation.Resource;
 
 /**
- * @author Dunston
+ *
+ * @author qy
+ *
  */
 @Api(value = "InOrder管理", tags = "InOrder管理")
 @RestController
-@RequestMapping(value = "/admin/inbound/inOrder")
+@RequestMapping(value="/admin/inbound/inOrder")
 @SuppressWarnings({"unchecked", "rawtypes"})
 public class InOrderController {
 
@@ -42,10 +44,54 @@ public class InOrderController {
             @PathVariable Long limit,
 
             @ApiParam(name = "inOrderVo", value = "查询对象", required = false)
-            @RequestBody(required = false) InOrderQueryVo inOrderQueryVo) {
+            InOrderQueryVo inOrderQueryVo) {
+        if(null != AuthContextHolder.getWarehouseId()) {
+            inOrderQueryVo.setWarehouseId(AuthContextHolder.getWarehouseId());
+        }
         Page<InOrder> pageParam = new Page<>(page, limit);
         IPage<InOrder> pageModel = inOrderService.selectPage(pageParam, inOrderQueryVo);
         return Result.ok(pageModel);
     }
-}
 
+    @ApiOperation(value = "获取")
+    @GetMapping("get/{id}")
+    public Result get(@PathVariable Long id) {
+        InOrder inOrder = inOrderService.getById(id);
+        return Result.ok(inOrder);
+    }
+
+    @ApiOperation(value = "获取")
+    @GetMapping("show/{id}")
+    public Result show(@PathVariable Long id) {
+        return Result.ok(inOrderService.show(id));
+    }
+
+    @ApiOperation(value = "新增")
+    @PostMapping("save")
+    public Result save(@RequestBody InOrder inOrder) {
+        inOrderService.saveInOrder(inOrder);
+        return Result.ok();
+    }
+
+    @ApiOperation(value = "修改")
+    @PutMapping("update")
+    public Result updateById(@RequestBody InOrder inOrder) {
+        inOrderService.updateInOrder(inOrder);
+        return Result.ok();
+    }
+
+    @ApiOperation(value = "删除")
+    @DeleteMapping("remove/{id}")
+    public Result remove(@PathVariable Long id) {
+        inOrderService.removeById(id);
+        return Result.ok();
+    }
+
+    @ApiOperation(value = "根据id列表删除")
+    @DeleteMapping("batchRemove")
+    public Result batchRemove(@RequestBody List<Long> idList) {
+        inOrderService.removeByIds(idList);
+        return Result.ok();
+    }
+
+}

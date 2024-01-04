@@ -3,7 +3,6 @@ package com.atguigu.wms.inbound.service.impl;
 import com.atguigu.wms.base.client.GoodsInfoFeignClient;
 import com.atguigu.wms.base.client.WarehouseInfoFeignClient;
 import com.atguigu.wms.common.security.AuthContextHolder;
-import com.atguigu.wms.common.util.DateUtil;
 import com.atguigu.wms.common.util.NoUtils;
 import com.atguigu.wms.enums.InOrderStatus;
 import com.atguigu.wms.enums.InPutawayTaskStatus;
@@ -14,13 +13,11 @@ import com.atguigu.wms.model.inbound.*;
 import com.atguigu.wms.vo.inbound.InOrderQueryVo;
 import com.atguigu.wms.inbound.mapper.InOrderMapper;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.util.StringUtils;
 
 import javax.annotation.Resource;
 import java.io.Serializable;
@@ -57,37 +54,105 @@ public class InOrderServiceImpl extends ServiceImpl<InOrderMapper, InOrder> impl
 
     @Override
     public IPage<InOrder> selectPage(Page<InOrder> pageParam, InOrderQueryVo inOrderQueryVo) {
-        QueryWrapper queryWrapper = new QueryWrapper();
-        if (inOrderQueryVo != null) {
-            Integer status = inOrderQueryVo.getStatus();
-            String no = inOrderQueryVo.getNo();
-            Long warehouseId = inOrderQueryVo.getWarehouseId();
-            String createTimeEnd = inOrderQueryVo.getCreateTimeEnd();
-            String createTimeBegin = inOrderQueryVo.getCreateTimeBegin();
-            String estimatedArrivalTimeBegin = inOrderQueryVo.getEstimatedArrivalTimeBegin();
-            String estimatedArrivalTimeEnd = inOrderQueryVo.getEstimatedArrivalTimeEnd();
-            String shipperName = inOrderQueryVo.getShipperName();
-            if (status != 0) {
-                queryWrapper.eq("status", status);
-            }
-            if (!StringUtils.isEmpty(no)) {
-                queryWrapper.eq("in_order_no", no);
-            }
-            if (!StringUtils.isEmpty(createTimeEnd) && !StringUtils.isEmpty(createTimeBegin)) {
-                queryWrapper.between("update_name", createTimeBegin, createTimeEnd);
-            }
-            if (!StringUtils.isEmpty(estimatedArrivalTimeBegin) && !StringUtils.isEmpty(estimatedArrivalTimeEnd)) {
-                queryWrapper.between("estimated_arrival_time", estimatedArrivalTimeBegin, estimatedArrivalTimeEnd);
-            }
-            if (warehouseId != 0) {
-                queryWrapper.eq("warehouse_id", warehouseId);
-            }
-            if (!StringUtils.isEmpty(shipperName)) {
-                queryWrapper.eq("shipper_name", shipperName);
-            }
+        IPage<InOrder> page = inOrderMapper.selectPage(pageParam, inOrderQueryVo);
+        page.getRecords().forEach(item -> {
+            item.setStatusName(item.getStatus().getComment());
+            item.setWarehouseName(warehouseInfoFeignClient.getNameById(item.getWarehouseId()));
+        });
+        return page;
+    }
+
+    @Override
+    public InOrder getById(Serializable id) {
+        InOrder inOrder = inOrderMapper.selectById(id);
+        inOrder.setStatusName(inOrder.getStatus().getComment());
+        inOrder.setWarehouseName(warehouseInfoFeignClient.getNameById(inOrder.getWarehouseId()));
+        List<InOrderItem> inOrderItemList = inOrderItemService.findByInOrderId(inOrder.getId());
+        inOrder.setInOrderItemList(inOrderItemList);
+        return inOrder;
+    }
+
+    @Override
+    public Map<String, Object> show(Long id) {
+        InOrder inOrder = this.getById(id);
+        List<InApproveTask> inApproveTaskList = inApproveTaskService.findByInOrderid(id).stream().filter(item -> item.getStatus() != InTaskStatus.PENDING_APPROVEL).collect(Collectors.toList());
+        List<InReceivingTask> inReceivingTaskList = inReceivingTaskService.findByInOrderid(id).stream().filter(item -> item.getStatus() != InTaskStatus.PENDING_APPROVEL).collect(Collectors.toList());
+        List<InPutawayTask> inPutawayTaskList = inPutawayTaskService.findByInOrderid(id).stream().filter(item -> item.getStatus() != InPutawayTaskStatus.PENDING_APPROVEL).collect(Collectors.toList());
+
+        inApproveTaskList.forEach(item -> {
+            item.setStatusName(item.getStatus().getComment());
+        });
+        inReceivingTaskList.forEach(item -> {
+            item.setStatusName(item.getStatus().getComment());
+        });
+        inPutawayTaskList.forEach(item -> {
+            item.setStatusName(item.getStatus().getComment());
+        });
+        Map<String, Object> result = new HashMap<>();
+        result.put("inOrder", inOrder);
+        result.put("inApproveTaskList", inApproveTaskList);
+        result.put("inReceivingTaskList", inReceivingTaskList);
+        result.put("inPutawayTaskList", inPutawayTaskList);
+        return result;
+    }
+
+    @Override
+    public InOrder getByInOrderNo(String inOrderNo) {
+        return this.getOne(new LambdaQueryWrapper<InOrder>().eq(InOrder::getInOrderNo, inOrderNo));
+    }
+
+    @Transactional(rollbackFor = {Exception.class})
+    @Override
+    public void saveInOrder(InOrder inOrder) {
+        inOrder.setInOrderNo(NoUtils.getOrderNo());
+        inOrder.setStatus(InOrderStatus.CREATE);
+        inOrder.setCreateId(AuthContextHolder.getUserId());
+        inOrder.setCreateName(AuthContextHolder.getUserName());
+        inOrderMapper.insert(inOrder);
+
+        int totalExpectCount = 0;
+        List<InOrderItem> inOrderItemList = inOrder.getInOrderItemList();
+        for(InOrderItem item : inOrderItemList) {
+            item.setInOrderId(inOrder.getId());
+            item.setWarehouseId(inOrder.getWarehouseId());
+
+            GoodsInfo goodsInfo = goodsInfoFeignClient.getGoodsInfo(item.getGoodsId());
+            item.setUnitId(goodsInfo.getUnitId());
+            item.setBaseUnitId(goodsInfo.getBaseUnitId());
+            item.setVolume(goodsInfo.getVolume());
+            item.setWeight(goodsInfo.getWeight());
+            item.setBaseCount(item.getExpectCount()*goodsInfo.getBaseCount());
+            item.setTotalPrice(item.getPrice().multiply(new BigDecimal(item.getBaseCount())));
+            item.setCreateId(AuthContextHolder.getUserId());
+            item.setCreateName(AuthContextHolder.getUserName());
+
+            totalExpectCount += item.getExpectCount();
         }
-        queryWrapper.eq("is_deleted", 0);
-        IPage<InOrder> ipage = inOrderMapper.selectPage(pageParam, queryWrapper);
-        return ipage;
+        inOrderItemService.saveBatch(inOrderItemList);
+
+        inOrder.setExpectCount(totalExpectCount);
+        inOrderMapper.updateById(inOrder);
+    }
+
+    @Transactional(rollbackFor = {Exception.class})
+    @Override
+    public void updateInOrder(InOrder inOrder) {
+        inOrderMapper.updateById(inOrder);
+
+        inOrderItemService.remove(new LambdaQueryWrapper<InOrderItem>().eq(InOrderItem::getInOrderId, inOrder.getId()));
+        List<InOrderItem> inOrderItemList = inOrder.getInOrderItemList();
+        inOrderItemList.forEach(item -> {
+            item.setInOrderId(inOrder.getId());
+            item.setWarehouseId(inOrder.getWarehouseId());
+
+            GoodsInfo goodsInfo = goodsInfoFeignClient.getGoodsInfo(item.getGoodsId());
+            item.setUnitId(goodsInfo.getUnitId());
+            item.setBaseUnitId(goodsInfo.getBaseUnitId());
+            item.setVolume(goodsInfo.getVolume());
+            item.setWeight(goodsInfo.getWeight());
+            item.setBaseCount(item.getExpectCount()*goodsInfo.getBaseCount());
+            item.setTotalPrice(item.getPrice().multiply(new BigDecimal(item.getBaseCount())));
+        });
+        inOrderItemService.saveBatch(inOrderItemList);
     }
 }

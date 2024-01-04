@@ -5,6 +5,8 @@ import com.atguigu.wms.vo.base.ShipperInfoQueryVo;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.service.IService;
 
+import java.util.List;
+
 public interface ShipperInfoService extends IService<ShipperInfo> {
     ShipperInfo get(Integer id);
 
@@ -13,4 +15,6 @@ public interface ShipperInfoService extends IService<ShipperInfo> {
     void remove(Integer id);
 
     IPage<ShipperInfo> getPageList(IPage<ShipperInfo> retPage, ShipperInfoQueryVo shipperInfoQueryVo);
+
+    List<ShipperInfo> findByKeyword(String keyword);
 }
